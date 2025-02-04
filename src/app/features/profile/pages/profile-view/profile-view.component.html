@@ -1,1 +1,30 @@
-<p>profile-view works!</p>
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6" *ngIf="currentUser">
+    <div class="text-center mb-6">
+      <h2 class="text-2xl font-bold text-gray-800">Profile Information</h2>
+    </div>
+
+    <div class="space-y-4">
+      <div class="flex border-b py-2">
+        <span class="font-medium w-1/3">Email:</span>
+        <span>{{ currentUser.email }}</span>
+      </div>
+      <div class="flex border-b py-2">
+        <span class="font-medium w-1/3">Full Name:</span>
+        <span>{{ currentUser.firstName }} {{ currentUser.lastName }}</span>
+      </div>
+      <div class="flex border-b py-2">
+        <span class="font-medium w-1/3">Phone:</span>
+        <span>{{ currentUser.phone }}</span>
+      </div>
+      <div class="flex border-b py-2">
+        <span class="font-medium w-1/3">Address:</span>
+        <span>{{ currentUser.address }}</span>
+      </div>
+      <div class="flex border-b py-2">
+        <span class="font-medium w-1/3">Birth Date:</span>
+        <span>{{ currentUser.birthDate }}</span>
+      </div>
+    </div>
+  </div>
+</div>

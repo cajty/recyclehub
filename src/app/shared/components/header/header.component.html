@@ -1,1 +1,19 @@
-<p>header works!</p>
+<header class="header">
+  <div class="container">
+    <div class="header-content">
+      <div class="logo">
+        <i class="fas fa-leaf"></i>
+        <span>RecycleHub</span>
+      </div>
+
+      <div class="auth-buttons">
+        <a [routerLink]="['/auth/login']"
+           routerLinkActive="active"
+           class="btn btn-login">Login</a>
+        <a [routerLink]="['/auth/register']"
+           routerLinkActive="active"
+           class="btn btn-register">Register</a>
+      </div>
+    </div>
+  </div>
+</header>

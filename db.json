@@ -1,0 +1,124 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "collector1@mail.com",
+      "password": "pass123",
+      "fullName": "John Collector",
+      "address": "123 Casablanca Street",
+      "phoneNumber": "0612345678",
+      "dateOfBirth": "1990-01-01",
+      "profilePicture": "",
+      "userType": "collector",
+      "points": 0
+    },
+    {
+      "id": "2",
+      "email": "user1@mail.com",
+      "password": "pass123",
+      "fullName": "Sarah User",
+      "address": "456 Casablanca Avenue",
+      "phoneNumber": "0698765432",
+      "dateOfBirth": "1995-05-15",
+      "profilePicture": "",
+      "userType": "individual",
+      "points": 50
+    },
+    {
+      "id": "a306",
+      "email": "fymysuvyk@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "firstName": "Phyllis",
+      "lastName": "Tyler",
+      "address": {
+        "street": "Et officiis aut est",
+        "city": "Debitis et aut lorem",
+        "zipCode": "99463"
+      },
+      "phone": "1234567890",
+      "dateOfBirth": "1992-08-12",
+      "profilePicture": {},
+      "userType": "individual",
+      "points": 0
+    },
+    {
+      "id": "483d",
+      "email": "bate@mailinator.com",
+      "password": "1234567G",
+      "firstName": "Xandra",
+      "lastName": "Boyd",
+      "address": {
+        "street": "Exercitation id aspe",
+        "city": "Aliqua Rerum alias ",
+        "zipCode": "27663"
+      },
+      "phone": "1234567891",
+      "dateOfBirth": "2022-12-30",
+      "profilePicture": {},
+      "userType": "individual",
+      "points": 0
+    },
+    {
+      "id": "828a",
+      "email": "juviv@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "firstName": "Phelan",
+      "lastName": "Rowe",
+      "address": {
+        "street": "Maxime provident re",
+        "city": "Aliquam aut neque ar",
+        "zipCode": "99050"
+      },
+      "phone": "1000000000",
+      "dateOfBirth": "1996-04-12",
+      "profilePicture": {},
+      "userType": "individual",
+      "points": 0
+    },
+    {
+      "id": "1324",
+      "email": "jijuty@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "firstName": "Brian",
+      "lastName": "Banks",
+      "address": {
+        "street": "Amet voluptates mol",
+        "city": "Quos quo incidunt e",
+        "zipCode": "24559"
+      },
+      "phone": "1234567891",
+      "dateOfBirth": "2019-10-01",
+      "profilePicture": {},
+      "userType": "individual",
+      "points": 0
+    }
+  ],
+  "collectionRequests": [
+    {
+      "id": "1",
+      "userId": 2,
+      "wasteTypes": [
+        "plastic",
+        "paper"
+      ],
+      "wastePhotos": [],
+      "weight": 1500,
+      "address": "456 Casablanca Avenue",
+      "date": "2025-02-05",
+      "timeSlot": "14:00",
+      "notes": "Please ring doorbell",
+      "status": "pending",
+      "collectorId": null
+    }
+  ],
+  "vouchers": [
+    {
+      "id": "1",
+      "userId": 2,
+      "pointsConverted": 100,
+      "amount": 50,
+      "createdAt": "2025-02-04",
+      "status": "active"
+    }
+  ]
+}

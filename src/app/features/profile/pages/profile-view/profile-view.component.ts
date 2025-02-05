@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {AuthService} from '../../../../core/services/auth.service';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import {User} from '../../../../models/user.model';
+import * as UserActions from '../../../../store/user/user.actions';
+import * as UserSelectors from '../../../../store/user/user.selectors';
+
 
 
 @Component({
@@ -11,13 +16,17 @@ import {AuthService} from '../../../../core/services/auth.service';
   styleUrl: './profile-view.component.css'
 })
 export class ProfileViewComponent implements OnInit {
-  currentUser: any;
+  user$: Observable<User | null>;
+  loading$: Observable<boolean>;
+  error$: Observable<any>;
 
-  constructor(private authService: AuthService) {}
+  constructor(private store: Store) {
+    this.user$ = this.store.select(UserSelectors.selectUser);
+    this.loading$ = this.store.select(UserSelectors.selectUserLoading);
+    this.error$ = this.store.select(UserSelectors.selectUserError);
+  }
 
   ngOnInit(): void {
-    this.authService.getCurrentUser().subscribe((user: any) => { // Explicitly typed user
-      this.currentUser = user;
-    });
+    this.store.dispatch(UserActions.loadUser());
   }
 }

@@ -1,18 +1,6 @@
 {
   "users": [
     {
-      "id": "1",
-      "email": "collector1@mail.com",
-      "password": "pass123",
-      "fullName": "John Collector",
-      "address": "123 Casablanca Street",
-      "phoneNumber": "0612345678",
-      "dateOfBirth": "1990-01-01",
-      "profilePicture": "",
-      "userType": "collector",
-      "points": 0
-    },
-    {
       "id": "2",
       "email": "user1@mail.com",
       "password": "pass123",

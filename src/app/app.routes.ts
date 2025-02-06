@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/guards/auth.guard';
 import { LoginComponent } from './features/auth/pages/login/login.component';
 import { RegisterComponent } from './features/auth/pages/register/register.component';
 import { CollectionListComponent } from './features/collection/pages/collection-list/collection-list.component';
@@ -11,7 +10,7 @@ import { PointsConversionComponent } from './features/points/pages/points-conver
 
 export const routes: Routes = [
   {
-    path: 'auth',
+    path: 'user',
     children: [
       {
         path: 'login',
@@ -25,7 +24,6 @@ export const routes: Routes = [
   },
   {
     path: 'collection',
-    canActivate: [authGuard],
     children: [
       {
         path: '',
@@ -33,7 +31,6 @@ export const routes: Routes = [
       },
       {
         path: 'request',
-        canActivate: [authGuard],
         component: CollectionRequestComponent
       },
       {
@@ -44,7 +41,6 @@ export const routes: Routes = [
   },
   {
     path: 'profile',
-    canActivate: [authGuard],
     children: [
       {
         path: '',
@@ -55,7 +51,6 @@ export const routes: Routes = [
   },
   {
     path: 'points',
-    canActivate: [authGuard],
     children: [
       {
         path: '',

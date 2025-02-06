@@ -23,15 +23,11 @@ export const selectUserError = createSelector(
   (state: UserState) => state.error
 );
 
-export const selectIsAuthenticated = createSelector(
-  selectUserState,
-  (state: UserState) => state.users.length > 0
-);
-
 export const selectUser = createSelector(
   selectUserState,
-  (state: UserState) => state.users[0]
+  (state: UserState) => state.users.length > 0 ? state.users[0] : null
 );
+
 
 export const selectUserPoints = createSelector(
   selectUser,

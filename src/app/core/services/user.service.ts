@@ -1,55 +1,87 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import {User} from '../../models/user.model';
-
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { User } from '../../models/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = 'http://localhost:3000/users';
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
+  private handleError(error: HttpErrorResponse) {
+    let errorMessage = 'An error occurred';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = error.error.message;
+    } else {
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      // Handle specific JSON Server errors
+      if (error.status === 404) {
+        errorMessage = 'Resource not found';
+      }
+    }
+    console.error(errorMessage);
+    return throwError(() => new Error(errorMessage));
+  }
 
   createUser(user: User): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/users`, user);
+    // Ensure ID is not included as JSON Server will generate it
+    const { id, ...userData } = user;
+    return this.http.post<User>(this.apiUrl, userData)
+      .pipe(catchError(this.handleError));
   }
-
 
   getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/users`);
+    return this.http.get<User[]>(this.apiUrl)
+      .pipe(catchError(this.handleError));
   }
-
 
   getUserById(id: string): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/users/${id}`);
+    return this.http.get<User>(`${this.apiUrl}/${id}`)
+      .pipe(catchError(this.handleError));
   }
-
 
   getUserByEmail(email: string): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/users?email=${email}`);
+    // JSON Server supports email filtering directly
+    const params = new HttpParams().set('email', email);
+    return this.http.get<User[]>(`${this.apiUrl}`, { params })
+      .pipe(catchError(this.handleError));
   }
-
 
   updateUser(id: string, user: Partial<User>): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/users/${id}`, user);
+    return this.http.patch<User>(`${this.apiUrl}/${id}`, user)
+      .pipe(catchError(this.handleError));
   }
-
 
   deleteUser(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/users/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`)
+      .pipe(catchError(this.handleError));
   }
-
 
   updateUserPoints(id: string, points: number): Observable<User> {
-    return this.http.patch<User>(`${this.apiUrl}/users/${id}`, { points });
+    return this.http.patch<User>(`${this.apiUrl}/${id}`, { points })
+      .pipe(catchError(this.handleError));
   }
 
-
   getCollectorsByCity(city: string): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/users?userType=collector&address_like=${city}`);
+    // JSON Server query parameters
+    const params = new HttpParams()
+      .set('userType', 'collector')
+      .set('q', city); // JSON Server full-text search
+
+    return this.http.get<User[]>(this.apiUrl, { params })
+      .pipe(
+        map(users => users.filter(user =>
+          user.address?.toLowerCase().includes(city.toLowerCase())
+        )),
+        catchError(this.handleError)
+      );
   }
 }

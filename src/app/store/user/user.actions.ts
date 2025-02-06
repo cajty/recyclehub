@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { User } from '../../models/user.model';
 
-
+// Load Users
 export const loadUsers = createAction('[User] Load Users');
 export const loadUsersSuccess = createAction(
   '[User] Load Users Success',
@@ -9,38 +9,24 @@ export const loadUsersSuccess = createAction(
 );
 export const loadUsersFailure = createAction(
   '[User] Load Users Failure',
-  props<{ error: any }>()
+  props<{ error: string }>()
 );
 
-
+// Load User By Id
 export const loadUserById = createAction(
-  '[User] Load User By ID',
+  '[User] Load User By Id',
   props<{ id: string }>()
 );
 export const loadUserByIdSuccess = createAction(
-  '[User] Load User By ID Success',
+  '[User] Load User By Id Success',
   props<{ user: User }>()
 );
 export const loadUserByIdFailure = createAction(
-  '[User] Load User By ID Failure',
-  props<{ error: any }>()
+  '[User] Load User By Id Failure',
+  props<{ error: string }>()
 );
 
-
-export const loadUserByEmail = createAction(
-  '[User] Load User By Email',
-  props<{ email: string }>()
-);
-export const loadUserByEmailSuccess = createAction(
-  '[User] Load User By Email Success',
-  props<{ users: User[] }>()
-);
-export const loadUserByEmailFailure = createAction(
-  '[User] Load User By Email Failure',
-  props<{ error: any }>()
-);
-
-
+// Create User
 export const createUser = createAction(
   '[User] Create User',
   props<{ user: User }>()
@@ -51,13 +37,13 @@ export const createUserSuccess = createAction(
 );
 export const createUserFailure = createAction(
   '[User] Create User Failure',
-  props<{ error: any }>()
+  props<{ error: string }>()
 );
 
-
+// Update User
 export const updateUser = createAction(
   '[User] Update User',
-  props<{ id: string, user: Partial<User> }>()
+  props<{ id: string; user: Partial<User> }>()
 );
 export const updateUserSuccess = createAction(
   '[User] Update User Success',
@@ -65,9 +51,22 @@ export const updateUserSuccess = createAction(
 );
 export const updateUserFailure = createAction(
   '[User] Update User Failure',
-  props<{ error: any }>()
+  props<{ error: string }>()
 );
 
+// Update User Points
+export const updateUserPoints = createAction(
+  '[User] Update User Points',
+  props<{ id: string; points: number }>()
+);
+export const updateUserPointsSuccess = createAction(
+  '[User] Update User Points Success',
+  props<{ user: User }>()
+);
+export const updateUserPointsFailure = createAction(
+  '[User] Update User Points Failure',
+  props<{ error: string }>()
+);
 
 // Delete User
 export const deleteUser = createAction(
@@ -80,33 +79,19 @@ export const deleteUserSuccess = createAction(
 );
 export const deleteUserFailure = createAction(
   '[User] Delete User Failure',
-  props<{ error: any }>()
+  props<{ error: string }>()
 );
 
-
-export const updateUserPoints = createAction(
-  '[User] Update User Points',
-  props<{ id: string, points: number }>()
-);
-export const updateUserPointsSuccess = createAction(
-  '[User] Update User Points Success',
-  props<{ user: User }>()
-);
-export const updateUserPointsFailure = createAction(
-  '[User] Update User Points Failure',
-  props<{ error: any }>()
-);
-
-
+// Get Collectors By City
 export const getCollectorsByCity = createAction(
   '[User] Get Collectors By City',
   props<{ city: string }>()
 );
 export const getCollectorsByCitySuccess = createAction(
   '[User] Get Collectors By City Success',
-  props<{ users: User[] }>()
+  props<{ collectors: User[] }>()
 );
 export const getCollectorsByCityFailure = createAction(
   '[User] Get Collectors By City Failure',
-  props<{ error: any }>()
+  props<{ error: string }>()
 );

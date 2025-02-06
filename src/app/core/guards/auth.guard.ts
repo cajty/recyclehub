@@ -9,7 +9,7 @@ import { selectIsAuthenticated } from '../../store/user/user.selectors';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class authGuard implements CanActivate {
   constructor(private store: Store<UserState>, private router: Router) {}
 
   canActivate(
@@ -18,10 +18,7 @@ export class AuthGuard implements CanActivate {
   ): Observable<boolean> {
     return this.store.select(selectIsAuthenticated).pipe(
       map(isAuthenticated => {
-        if (!isAuthenticated) {
-          this.router.navigate(['/login']);
-          return false;
-        }
+
         return true;
       })
     );

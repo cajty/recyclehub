@@ -1,34 +1,39 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { UserState } from './user.reducer';
 
-export const selectUserState = createFeatureSelector<UserState>('user');
+export const selectUserState = createFeatureSelector<UserState>('users');
 
-export const selectUsers = createSelector(
+export const selectAllUsers = createSelector(
   selectUserState,
-  (state) => state.users
+  (state: UserState) => state.users
 );
 
-export const selectUser = createSelector(
+export const selectCollectors = createSelector(
   selectUserState,
-  (state) => state.user
+  (state: UserState) => state.collectors
 );
 
 export const selectUserLoading = createSelector(
   selectUserState,
-  (state) => state.loading
+  (state: UserState) => state.loading
 );
 
 export const selectUserError = createSelector(
   selectUserState,
-  (state) => state.error
-);
-
-export const selectUserPoints = createSelector(
-  selectUserState,
-  (state) => state.user?.points
+  (state: UserState) => state.error
 );
 
 export const selectIsAuthenticated = createSelector(
+  selectUserState,
+  (state: UserState) => state.users.length > 0
+);
+
+export const selectUser = createSelector(
+  selectUserState,
+  (state: UserState) => state.users[0]
+);
+
+export const selectUserPoints = createSelector(
   selectUser,
-  (user) => !!user
+  (user) => user?.points || 0
 );

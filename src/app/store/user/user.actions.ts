@@ -12,33 +12,21 @@ export const loadUsersFailure = createAction(
   props<{ error: string }>()
 );
 
-// Load User By Id
-export const loadUserById = createAction(
+// Load User By Email
+export const loadUserByEmail = createAction(
   '[User] Load User By Id',
-  props<{ id: string }>()
+  props<{email : string }>()
 );
-export const loadUserByIdSuccess = createAction(
+export const loadUserByEmailSuccess = createAction(
   '[User] Load User By Id Success',
   props<{ user: User }>()
 );
-export const loadUserByIdFailure = createAction(
+export const loadUserByEmailFailure = createAction(
   '[User] Load User By Id Failure',
   props<{ error: string }>()
 );
 
-// Create User
-export const createUser = createAction(
-  '[User] Create User',
-  props<{ user: User }>()
-);
-export const createUserSuccess = createAction(
-  '[User] Create User Success',
-  props<{ user: User }>()
-);
-export const createUserFailure = createAction(
-  '[User] Create User Failure',
-  props<{ error: string }>()
-);
+
 
 // Update User
 export const updateUser = createAction(

@@ -29,7 +29,6 @@ export class AuthService {
   return this.http.post(`${this.apiUrl}/users`, userData).pipe(
     map(response => {
       if (response) {
-        this.router.navigate(['/profile']);
         return response;
       } else {
         throw new Error('Registration failed');

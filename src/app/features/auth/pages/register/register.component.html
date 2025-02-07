@@ -5,126 +5,78 @@
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-8">
       <div class="bg-gray-50 rounded-lg p-6 space-y-6">
-        <h3 class="text-lg font-semibold text-emerald-800">Basic Information</h3>
+        <h3 class="text-lg font-semibold text-emerald-800">Account Information</h3>
 
+        <!-- Email and Password -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
             <input
-              id="firstName"
-              type="text"
-              formControlName="firstName"
+              id="email"
+              type="email"
+              formControlName="email"
               class="w-full rounded-md border-gray-300 focus:border-emerald-500 focus:ring focus:ring-emerald-200 transition"
-              [ngClass]="{'border-red-500 focus:border-red-500 focus:ring-red-200': registerForm.get('firstName')?.touched && registerForm.get('firstName')?.invalid}">
-            <p class="mt-1 text-sm text-red-600" *ngIf="registerForm.get('firstName')?.touched && registerForm.get('firstName')?.invalid">
-              {{ getErrorMessage('firstName') }}
+              [ngClass]="{'border-red-500': registerForm.get('email')?.touched && registerForm.get('email')?.invalid}">
+            <p class="mt-1 text-sm text-red-600" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
+              {{ getErrorMessage('email') }}
             </p>
           </div>
 
           <div>
-            <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
             <input
-              id="lastName"
-              type="text"
-              formControlName="lastName"
+              id="password"
+              type="password"
+              formControlName="password"
               class="w-full rounded-md border-gray-300 focus:border-emerald-500 focus:ring focus:ring-emerald-200 transition"
-              [ngClass]="{'border-red-500 focus:border-red-500 focus:ring-red-200': registerForm.get('lastName')?.touched && registerForm.get('lastName')?.invalid}">
-            <p class="mt-1 text-sm text-red-600" *ngIf="registerForm.get('lastName')?.touched && registerForm.get('lastName')?.invalid">
-              {{ getErrorMessage('lastName') }}
+              [ngClass]="{'border-red-500': registerForm.get('password')?.touched && registerForm.get('password')?.invalid}">
+            <p class="mt-1 text-sm text-red-600" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid">
+              {{ getErrorMessage('password') }}
             </p>
           </div>
         </div>
 
-        <!-- Email -->
+        <!-- Full Name -->
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+          <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
           <input
-            id="email"
-            type="email"
-            formControlName="email"
-            class="w-full rounded-md border-gray-300 focus:border-emerald-500 focus:ring focus:ring-emerald-200 transition"
-            [ngClass]="{'border-red-500 focus:border-red-500 focus:ring-red-200': registerForm.get('email')?.touched && registerForm.get('email')?.invalid}">
-          <p class="mt-1 text-sm text-red-600" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
-            {{ getErrorMessage('email') }}
-          </p>
-        </div>
-
-        <!-- Password -->
-        <div>
-          <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-          <input
-            id="password"
-            type="password"
-            formControlName="password"
-            class="w-full rounded-md border-gray-300 focus:border-emerald-500 focus:ring focus:ring-emerald-200 transition"
-            [ngClass]="{'border-red-500 focus:border-red-500 focus:ring-red-200': registerForm.get('password')?.touched && registerForm.get('password')?.invalid}">
-          <p class="mt-1 text-sm text-red-600" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid">
-            {{ getErrorMessage('password') }}
-          </p>
-        </div>
-      </div>
-
-      <!-- Address Information -->
-      <div class="bg-gray-50 rounded-lg p-6 space-y-6" formGroupName="address">
-        <h3 class="text-lg font-semibold text-emerald-800">Address Information</h3>
-
-        <div>
-          <label for="street" class="block text-sm font-medium text-gray-700 mb-1">Street Address</label>
-          <input
-            id="street"
+            id="fullName"
             type="text"
-            formControlName="street"
+            formControlName="fullName"
             class="w-full rounded-md border-gray-300 focus:border-emerald-500 focus:ring focus:ring-emerald-200 transition"
-            [ngClass]="{'border-red-500 focus:border-red-500 focus:ring-red-200': registerForm.get('address.street')?.touched && registerForm.get('address.street')?.invalid}">
-          <p class="mt-1 text-sm text-red-600" *ngIf="registerForm.get('address.street')?.touched && registerForm.get('address.street')?.invalid">
-            {{ getErrorMessage('address.street') }}
+            [ngClass]="{'border-red-500': registerForm.get('fullName')?.touched && registerForm.get('fullName')?.invalid}">
+          <p class="mt-1 text-sm text-red-600" *ngIf="registerForm.get('fullName')?.touched && registerForm.get('fullName')?.invalid">
+            {{ getErrorMessage('fullName') }}
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label for="city" class="block text-sm font-medium text-gray-700 mb-1">City</label>
-            <input
-              id="city"
-              type="text"
-              formControlName="city"
-              class="w-full rounded-md border-gray-300 focus:border-emerald-500 focus:ring focus:ring-emerald-200 transition"
-              [ngClass]="{'border-red-500 focus:border-red-500 focus:ring-red-200': registerForm.get('address.city')?.touched && registerForm.get('address.city')?.invalid}">
-            <p class="mt-1 text-sm text-red-600" *ngIf="registerForm.get('address.city')?.touched && registerForm.get('address.city')?.invalid">
-              {{ getErrorMessage('address.city') }}
-            </p>
-          </div>
-
-          <div>
-            <label for="zipCode" class="block text-sm font-medium text-gray-700 mb-1">Zip Code</label>
-            <input
-              id="zipCode"
-              type="text"
-              formControlName="zipCode"
-              class="w-full rounded-md border-gray-300 focus:border-emerald-500 focus:ring focus:ring-emerald-200 transition"
-              [ngClass]="{'border-red-500 focus:border-red-500 focus:ring-red-200': registerForm.get('address.zipCode')?.touched && registerForm.get('address.zipCode')?.invalid}">
-            <p class="mt-1 text-sm text-red-600" *ngIf="registerForm.get('address.zipCode')?.touched && registerForm.get('address.zipCode')?.invalid">
-              {{ getErrorMessage('address.zipCode') }}
-            </p>
-          </div>
+        <!-- Address -->
+        <div>
+          <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+          <textarea
+            id="address"
+            formControlName="address"
+            rows="3"
+            class="w-full rounded-md border-gray-300 focus:border-emerald-500 focus:ring focus:ring-emerald-200 transition"
+            [ngClass]="{'border-red-500': registerForm.get('address')?.touched && registerForm.get('address')?.invalid}">
+          </textarea>
+          <p class="mt-1 text-sm text-red-600" *ngIf="registerForm.get('address')?.touched && registerForm.get('address')?.invalid">
+            {{ getErrorMessage('address') }}
+          </p>
         </div>
-      </div>
 
-      <!-- Additional Information -->
-      <div class="bg-gray-50 rounded-lg p-6 space-y-6">
-        <h3 class="text-lg font-semibold text-emerald-800">Additional Information</h3>
-
+        <!-- Phone Number and Date of Birth -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+            <label for="phoneNumber" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
             <input
-              id="phone"
+              id="phoneNumber"
               type="tel"
-              formControlName="phone"
+              formControlName="phoneNumber"
               class="w-full rounded-md border-gray-300 focus:border-emerald-500 focus:ring focus:ring-emerald-200 transition"
-              [ngClass]="{'border-red-500 focus:border-red-500 focus:ring-red-200': registerForm.get('phone')?.touched && registerForm.get('phone')?.invalid}">
-            <p class="mt-1 text-sm text-red-600" *ngIf="registerForm.get('phone')?.touched && registerForm.get('phone')?.invalid">
-              {{ getErrorMessage('phone') }}
+              [ngClass]="{'border-red-500': registerForm.get('phoneNumber')?.touched && registerForm.get('phoneNumber')?.invalid}">
+            <p class="mt-1 text-sm text-red-600" *ngIf="registerForm.get('phoneNumber')?.touched && registerForm.get('phoneNumber')?.invalid">
+              {{ getErrorMessage('phoneNumber') }}
             </p>
           </div>
 
@@ -135,7 +87,7 @@
               type="date"
               formControlName="dateOfBirth"
               class="w-full rounded-md border-gray-300 focus:border-emerald-500 focus:ring focus:ring-emerald-200 transition"
-              [ngClass]="{'border-red-500 focus:border-red-500 focus:ring-red-200': registerForm.get('dateOfBirth')?.touched && registerForm.get('dateOfBirth')?.invalid}">
+              [ngClass]="{'border-red-500': registerForm.get('dateOfBirth')?.touched && registerForm.get('dateOfBirth')?.invalid}">
             <p class="mt-1 text-sm text-red-600" *ngIf="registerForm.get('dateOfBirth')?.touched && registerForm.get('dateOfBirth')?.invalid">
               {{ getErrorMessage('dateOfBirth') }}
             </p>

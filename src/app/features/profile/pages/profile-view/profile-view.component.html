@@ -1,96 +1,169 @@
-<div class="container mx-auto px-4 py-8">
-  <!-- Loading State -->
-  <div *ngIf="loading$ | async" class="flex justify-center items-center">
-    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
-  </div>
-
-  <!-- Error State -->
-  <div *ngIf="error$ | async as error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-    {{ error }}
-  </div>
-
-  <!-- User Profile -->
-  <div *ngIf="user$ | async as user" class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
-    <div class="text-center mb-6">
-      <h2 class="text-2xl font-bold text-gray-800">Profile Information</h2>
-
-      <!-- Profile Picture -->
-      <div class="mb-4">
-        <img
-          [src]="user.profilePicture || 'assets/default-avatar.png'"
-          alt="Profile picture"
-          class="w-24 h-24 rounded-full mx-auto object-cover border-2 border-emerald-500"
-        >
+<div class="w-full max-w-4xl mx-auto p-6">
+  <!-- Main Card with better shadow and rounded corners -->
+  <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
+    <!-- Profile Header Section -->
+    <div class="bg-emerald-50 p-8 border-b border-emerald-100">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-emerald-800 mb-6">Profile Information</h2>
+        <!-- Improved profile image container -->
+        <div class="relative w-36 h-36 mx-auto group">
+          <img
+            [src]="'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400'"
+            alt="Profile"
+            class="w-36 h-36 rounded-full object-cover border-4 border-emerald-500 shadow-lg group-hover:scale-105 transition-all duration-300"
+          />
+          <div class="absolute inset-0 bg-black/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center cursor-pointer">
+            <span class="material-symbols-outlined text-white text-4xl">photo_camera</span>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="space-y-4">
-      <div class="flex border-b py-2">
-        <span class="font-medium w-1/3">Full Name:</span>
-        <span>{{ user.fullName }}</span>
-      </div>
+    <!-- Profile Form Section -->
+    <form [formGroup]="profileForm" (ngSubmit)="updateProfile()" class="p-6">
+      <div class="grid gap-6">
+        <!-- User Stats Summary -->
+        <div class="grid grid-cols-3 gap-4 p-4 bg-emerald-50 rounded-xl mb-6">
+          <div class="text-center p-3 bg-white rounded-lg shadow-sm">
+            <span class="material-symbols-outlined text-emerald-500 text-2xl mb-2">badge</span>
+            <p class="text-sm text-gray-600">Type</p>
+            <p class="font-semibold capitalize">{{ (user$ | async)?.userType }}</p>
+          </div>
+          <div class="text-center p-3 bg-white rounded-lg shadow-sm">
+            <span class="material-symbols-outlined text-emerald-500 text-2xl mb-2">stars</span>
+            <p class="text-sm text-gray-600">Points</p>
+            <p class="font-semibold">{{ (user$ | async)?.points }}</p>
+          </div>
+          <div class="text-center p-3 bg-white rounded-lg shadow-sm">
+            <span class="material-symbols-outlined text-emerald-500 text-2xl mb-2">account_balance_wallet</span>
+            <p class="text-sm text-gray-600">Balance</p>
+            <p class="font-semibold">{{ (user$ | async)?.balance | currency }}</p>
+          </div>
+        </div>
 
-      <div class="flex border-b py-2">
-        <span class="font-medium w-1/3">Email:</span>
-        <span>{{ user.email }}</span>
-      </div>
+        <!-- Form Fields with improved styling -->
+        <div class="space-y-4">
+          <div class="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors duration-200">
+            <div class="flex items-center gap-4">
+              <span class="material-symbols-outlined text-emerald-500">person</span>
+              <div class="flex-1">
+                <label class="text-sm text-gray-600 block mb-1">Full Name</label>
+                <input formControlName="fullName"
+                       class="w-full bg-transparent border-b border-gray-300 focus:border-emerald-500 focus:outline-none py-1"
+                       [readonly]="!isEditing"
+                       type="text">
+              </div>
+            </div>
+          </div>
 
-      <div class="flex border-b py-2">
-        <span class="font-medium w-1/3">Phone:</span>
-        <span>{{ user.phoneNumber }}</span>
-      </div>
+          <div class="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors duration-200">
+            <div class="flex items-center gap-4">
+              <span class="material-symbols-outlined text-emerald-500">mail</span>
+              <div class="flex-1">
+                <label class="text-sm text-gray-600 block mb-1">Email</label>
+                <input formControlName="email"
+                       class="w-full bg-transparent border-b border-gray-300 focus:border-emerald-500 focus:outline-none py-1"
+                       [readonly]="!isEditing"
+                       type="email">
+              </div>
+            </div>
+          </div>
 
-      <div class="flex border-b py-2">
-        <span class="font-medium w-1/3">Address:</span>
-        <span>{{ user.address }}</span>
-      </div>
+          <div class="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors duration-200">
+            <div class="flex items-center gap-4">
+              <span class="material-symbols-outlined text-emerald-500">phone</span>
+              <div class="flex-1">
+                <label class="text-sm text-gray-600 block mb-1">Phone</label>
+                <input formControlName="phone"
+                       class="w-full bg-transparent border-b border-gray-300 focus:border-emerald-500 focus:outline-none py-1"
+                       [readonly]="!isEditing"
+                       type="tel">
+              </div>
+            </div>
+          </div>
 
-      <div class="flex border-b py-2">
-        <span class="font-medium w-1/3">Birth Date:</span>
-        <span>{{ user.dateOfBirth | date:'mediumDate' }}</span>
-      </div>
+          <div class="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors duration-200">
+            <div class="flex items-center gap-4">
+              <span class="material-symbols-outlined text-emerald-500">home</span>
+              <div class="flex-1">
+                <label class="text-sm text-gray-600 block mb-1">Address</label>
+                <input formControlName="address"
+                       class="w-full bg-transparent border-b border-gray-300 focus:border-emerald-500 focus:outline-none py-1"
+                       [readonly]="!isEditing"
+                       type="text">
+              </div>
+            </div>
+          </div>
 
-      <div class="flex border-b py-2">
-        <span class="font-medium w-1/3">User Type:</span>
-        <span class="capitalize">{{ user.userType }}</span>
-      </div>
+          <div class="bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors duration-200">
+            <div class="flex items-center gap-4">
+              <span class="material-symbols-outlined text-emerald-500">cake</span>
+              <div class="flex-1">
+                <label class="text-sm text-gray-600 block mb-1">Birth Date</label>
+                <input formControlName="birthDate"
+                       class="w-full bg-transparent border-b border-gray-300 focus:border-emerald-500 focus:outline-none py-1"
+                       [readonly]="!isEditing"
+                       type="date">
+              </div>
+            </div>
+          </div>
+        </div>
 
-      <!-- Points Section -->
-      <div class="flex border-b py-2">
-        <span class="font-medium w-1/3">Points:</span>
-        <span>{{ user.points }}</span>
-      </div>
+        <!-- Points Conversion Section -->
+        <div class="border-t border-gray-200 pt-6 mt-6">
+          <h3 class="text-lg font-semibold mb-4 text-center">Convert Your Points</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <button type="button" (click)="convertPoints(100)"
+                    class="p-4 bg-white border-2 border-emerald-500 rounded-xl hover:bg-emerald-50 transition-all duration-300 group">
+              <div class="flex items-center justify-center gap-2 text-emerald-700">
+                <span class="material-symbols-outlined group-hover:scale-110 transition-transform">currency_exchange</span>
+                <span class="font-medium">100 Points</span>
+              </div>
+              <p class="text-sm text-gray-600 mt-2 text-center">Get 50 Dh</p>
+            </button>
 
-      <!-- Points Conversion Buttons -->
-      <div class="flex flex-wrap gap-2 justify-end mt-6">
-        <button
-          (click)="convertPoints(user.id, 100)"
-          class="px-4 py-2 bg-emerald-500 text-white rounded hover:bg-emerald-600 disabled:opacity-50"
-          [disabled]="user.points < 100">
-          Convert 100 Points (50 Dh)
-        </button>
-        <button
-          (click)="convertPoints(user.id, 200)"
-          class="px-4 py-2 bg-emerald-500 text-white rounded hover:bg-emerald-600 disabled:opacity-50"
-          [disabled]="user.points < 200">
-          Convert 200 Points (120 Dh)
-        </button>
-        <button
-          (click)="convertPoints(user.id, 500)"
-          class="px-4 py-2 bg-emerald-500 text-white rounded hover:bg-emerald-600 disabled:opacity-50"
-          [disabled]="user.points < 500">
-          Convert 500 Points (350 Dh)
-        </button>
-      </div>
+            <button type="button" (click)="convertPoints(200)"
+                    class="p-4 bg-white border-2 border-emerald-500 rounded-xl hover:bg-emerald-50 transition-all duration-300 group">
+              <div class="flex items-center justify-center gap-2 text-emerald-700">
+                <span class="material-symbols-outlined group-hover:scale-110 transition-transform">currency_exchange</span>
+                <span class="font-medium">200 Points</span>
+              </div>
+              <p class="text-sm text-gray-600 mt-2 text-center">Get 120 Dh</p>
+            </button>
 
-      <!-- Delete Account Button -->
-      <div class="flex justify-end mt-4">
-        <button
-          (click)="deleteAccount(user.id)"
-          class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
-          Delete Account
-        </button>
+            <button type="button" (click)="convertPoints(500)"
+                    class="p-4 bg-white border-2 border-emerald-500 rounded-xl hover:bg-emerald-50 transition-all duration-300 group">
+              <div class="flex items-center justify-center gap-2 text-emerald-700">
+                <span class="material-symbols-outlined group-hover:scale-110 transition-transform">currency_exchange</span>
+                <span class="font-medium">500 Points</span>
+              </div>
+              <p class="text-sm text-gray-600 mt-2 text-center">Get 350 Dh</p>
+            </button>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap justify-between gap-4 mt-8">
+          <button type="button" (click)="toggleEdit()"
+                  class="px-6 py-3 flex items-center gap-2 rounded-xl text-white transition-all duration-300"
+                  [ngClass]="isEditing ? 'bg-gray-500 hover:bg-gray-600' : 'bg-blue-500 hover:bg-blue-600'">
+            <span class="material-symbols-outlined">{{ isEditing ? 'cancel' : 'edit' }}</span>
+            {{ isEditing ? 'Cancel' : 'Edit Profile' }}
+          </button>
+
+          <button type="submit" *ngIf="isEditing"
+                  class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 flex items-center gap-2 text-white rounded-xl transition-all duration-300">
+            <span class="material-symbols-outlined">save</span>
+            Save Changes
+          </button>
+
+          <button type="button" (click)="deleteAccount()"
+                  class="px-6 py-3 bg-red-500 hover:bg-red-600 flex items-center gap-2 text-white rounded-xl transition-all duration-300">
+            <span class="material-symbols-outlined">delete</span>
+            Delete Account
+          </button>
+        </div>
       </div>
-    </div>
+    </form>
   </div>
 </div>

@@ -31,12 +31,7 @@ export class UserService {
     return throwError(() => new Error(errorMessage));
   }
 
-  createUser(user: User): Observable<User> {
-    // Ensure ID is not included as JSON Server will generate it
-    const { id, ...userData } = user;
-    return this.http.post<User>(this.apiUrl, userData)
-      .pipe(catchError(this.handleError));
-  }
+
 
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl)
@@ -48,12 +43,14 @@ export class UserService {
       .pipe(catchError(this.handleError));
   }
 
-  getUserByEmail(email: string): Observable<User[]> {
-    // JSON Server supports email filtering directly
-    const params = new HttpParams().set('email', email);
-    return this.http.get<User[]>(`${this.apiUrl}`, { params })
-      .pipe(catchError(this.handleError));
-  }
+ getUserByEmail(email: string): Observable<User> {
+  const params = new HttpParams().set('email', email);
+  return this.http.get<User[]>(`${this.apiUrl}`, { params })
+    .pipe(
+      map(users => users[0]), // Return the first user from the array
+      catchError(this.handleError)
+    );
+}
 
   updateUser(id: string, user: Partial<User>): Observable<User> {
     return this.http.patch<User>(`${this.apiUrl}/${id}`, user)

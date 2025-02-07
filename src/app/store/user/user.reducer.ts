@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as UserActions from './user.actions';
 import { User } from '../../models/user.model';
+import {loadUserByEmail} from './user.actions';
 
 export interface UserState {
   users: User[];
@@ -36,41 +37,26 @@ export const userReducer = createReducer(
     error
   })),
 
-  // Load User By Id
-  on(UserActions.loadUserById, (state) => ({
+  // Load User By Email
+  on(UserActions.loadUserByEmail, (state) => ({
     ...state,
     loading: true,
     error: null
   })),
-  on(UserActions.loadUserByIdSuccess, (state, { user }) => ({
+  on(UserActions.loadUserByEmailSuccess, (state, { user }) => ({
     ...state,
     users: [user], // Replace with single user since we're loading by ID
     loading: false,
     error: null
   })),
-  on(UserActions.loadUserByIdFailure, (state, { error }) => ({
+  on(UserActions.loadUserByEmailFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error
   })),
 
-  // Create User
-  on(UserActions.createUser, (state) => ({
-    ...state,
-    loading: true,
-    error: null
-  })),
-  on(UserActions.createUserSuccess, (state, { user }) => ({
-    ...state,
-    users: [...state.users, user],
-    loading: false,
-    error: null
-  })),
-  on(UserActions.createUserFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error
-  })),
+
+
 
   // Update User
   on(UserActions.updateUser, (state) => ({

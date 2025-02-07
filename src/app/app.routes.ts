@@ -41,13 +41,7 @@ export const routes: Routes = [
   },
   {
     path: 'profile',
-    children: [
-      {
-        path: '',
         component: ProfileViewComponent
-      },
-
-    ]
   },
   {
     path: 'points',

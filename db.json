@@ -72,28 +72,31 @@
     {
       "id": "1",
       "userId": 2,
-      "wasteTypes": [
-        "plastic",
-        "paper"
+      "collectorId": null,
+      "waste": [
+        {
+          "type": "plastic",
+          "estimatedWeight": 1000,
+          "realWeight": 1000,
+          "wastePhotos": "https://via",
+          "estimatedWeight": 1000,
+          "validWaste": true
+        },
+        {
+          "type": "plastic",
+          "estimatedWeight": 1000,
+          "realWeight": 1000,
+          "wastePhotos": "https://via",
+          "estimatedWeight": 1000,
+          "validWaste": true
+
+        }
+
       ],
-      "wastePhotos": [],
-      "weight": 1500,
       "address": "456 Casablanca Avenue",
       "date": "2025-02-05",
       "timeSlot": "14:00",
-      "notes": "Please ring doorbell",
-      "status": "pending",
-      "collectorId": null
-    }
-  ],
-  "vouchers": [
-    {
-      "id": "1",
-      "userId": 2,
-      "pointsConverted": 100,
-      "amount": 50,
-      "createdAt": "2025-02-04",
-      "status": "active"
+      "status": "pending"
     }
   ]
 }

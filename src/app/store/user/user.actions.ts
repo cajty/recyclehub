@@ -12,16 +12,16 @@ export const loadUsersFailure = createAction(
   props<{ error: string }>()
 );
 
-// Load User By Email
-export const loadUserByEmail = createAction(
+// Load User By id
+export const loadUserById = createAction(
   '[User] Load User By Id',
-  props<{email : string }>()
+  props<{id : string }>()
 );
-export const loadUserByEmailSuccess = createAction(
+export const loadUserByIdSuccess = createAction(
   '[User] Load User By Id Success',
   props<{ user: User }>()
 );
-export const loadUserByEmailFailure = createAction(
+export const loadUserByIdFailure = createAction(
   '[User] Load User By Id Failure',
   props<{ error: string }>()
 );

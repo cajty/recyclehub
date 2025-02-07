@@ -5,7 +5,7 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import * as UserActions from './user.actions';
 import { UserService } from '../../core/services/user.service';
-import {loadUserByEmail} from './user.actions';
+
 
 @Injectable()
 export class UserEffects {
@@ -14,11 +14,11 @@ export class UserEffects {
 
   loadUser$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UserActions.loadUserByEmail),
-      switchMap(({ email }) =>
-        this.userService.getUserByEmail(email).pipe(
-          map((user) => UserActions.loadUserByEmailSuccess({ user })),
-          catchError((error) => of(UserActions.loadUserByEmailFailure({ error })))
+      ofType(UserActions.loadUserById),
+      switchMap(({ id }) =>
+        this.userService.getUserById(id).pipe(
+          map((user) => UserActions.loadUserByIdSuccess({ user })),
+          catchError((error) => of(UserActions.loadUserByIdFailure({ error })))
         )
       )
     )

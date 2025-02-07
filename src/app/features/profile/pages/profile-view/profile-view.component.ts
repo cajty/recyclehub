@@ -45,9 +45,9 @@ isEditing: boolean = false
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      const email = localStorage.getItem("user-email")
-      if (email) {
-        this.store.dispatch(UserActions.loadUserByEmail({ email }))
+      const id = localStorage.getItem("user-id")
+      if (id) {
+        this.store.dispatch(UserActions.loadUserById({ id: id }))
       }
     })
 

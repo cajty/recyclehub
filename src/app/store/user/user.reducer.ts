@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as UserActions from './user.actions';
 import { User } from '../../models/user.model';
-import {loadUserByEmail} from './user.actions';
+
 
 export interface UserState {
   users: User[];
@@ -38,18 +38,18 @@ export const userReducer = createReducer(
   })),
 
   // Load User By Email
-  on(UserActions.loadUserByEmail, (state) => ({
+  on(UserActions.loadUserById, (state) => ({
     ...state,
     loading: true,
     error: null
   })),
-  on(UserActions.loadUserByEmailSuccess, (state, { user }) => ({
+  on(UserActions.loadUserByIdSuccess, (state, { user }) => ({
     ...state,
     users: [user], // Replace with single user since we're loading by ID
     loading: false,
     error: null
   })),
-  on(UserActions.loadUserByEmailFailure, (state, { error }) => ({
+  on(UserActions.loadUserByIdFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error

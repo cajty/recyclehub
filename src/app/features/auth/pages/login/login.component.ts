@@ -45,7 +45,7 @@ export class LoginComponent {
       this.authService.login(this.loginData.email, this.loginData.password)
         .subscribe({
           next: (user) => {
-            localStorage.setItem('user-email', user.email);
+            localStorage.setItem('user-idl', user.email);
             this.router.navigate(['/profile']);
           },
           error: (error) => {

@@ -30,16 +30,18 @@
     },
     {
       "id": "483d",
-      "email": "bate@mailinator.com",
+      "email": "bate12@mailinator.com",
       "password": "1234567G",
-      "fullName": "Xandra Boyd",
+      "fullName": "Xandra Boyd11113",
       "address": "Exercitation id aspe, Aliqua Rerum alias, 27663",
       "phoneNumber": "1234567891",
       "dateOfBirth": "2022-12-30",
       "profilePicture": "",
       "userType": "individual",
-      "balance": 0,
-      "points": 0
+      "balance": 990,
+      "points": 8600,
+      "phone": "1234567891",
+      "birthDate": "2022-12-30"
     },
     {
       "id": "828a",
@@ -51,7 +53,7 @@
       "dateOfBirth": "1996-04-12",
       "profilePicture": "",
       "userType": "individual",
-      "balance": 0,
+      "balance": 5000000,
       "points": 0
     },
     {
@@ -64,39 +66,132 @@
       "dateOfBirth": "2019-10-01",
       "profilePicture": "",
       "userType": "individual",
-      "balance": 0,
+      "balance": 5000000,
       "points": 0
     }
   ],
   "collectionRequests": [
     {
-      "id": "1",
-      "userId": 2,
+      "id": "nds1mef5d",
+      "userId": 1,
+      "collectorId": null,
+      "waste": [
+        {
+          "type": "glass",
+          "estimatedWeight": 5300,
+          "realWeight": 0,
+          "wastePhotos": "",
+          "validWaste": false
+        },
+        {
+          "type": "metal",
+          "estimatedWeight": 780,
+          "realWeight": 0,
+          "wastePhotos": "",
+          "validWaste": false
+        }
+      ],
+      "address": "Beatae pariatur Fug",
+      "date": "2008-07-28",
+      "timeSlot": "13:16",
+      "status": "En attente"
+    },
+    {
+      "id": "w5meh1mtu",
+      "userId": 1,
+      "collectorId": null,
+      "waste": [
+        {
+          "type": "metal",
+          "estimatedWeight": 9800,
+          "realWeight": 0,
+          "wastePhotos": "",
+          "validWaste": false
+        }
+      ],
+      "address": "Id tempora odit rep",
+      "date": "2020-11-12",
+      "timeSlot": "08:45",
+      "status": "En attente"
+    },
+    {
+      "id": "zcrfvz28s",
+      "userId": 1,
+      "collectorId": null,
+      "waste": [
+        {
+          "type": "metal",
+          "estimatedWeight": 4600,
+          "realWeight": 0,
+          "wastePhotos": "",
+          "validWaste": false
+        },
+        {
+          "type": "paper",
+          "estimatedWeight": 1000,
+          "realWeight": 0,
+          "wastePhotos": "",
+          "validWaste": false
+        }
+      ],
+      "address": "In fuga Autem est s",
+      "date": "2003-10-20",
+      "timeSlot": "10:10",
+      "status": "En attente"
+    },
+    {
+      "id": "zfskjm7tr",
+      "userId": 1,
+      "collectorId": null,
+      "waste": [
+        {
+          "type": "glass",
+          "estimatedWeight": 4200,
+          "realWeight": 0,
+          "wastePhotos": "",
+          "validWaste": false
+        }
+      ],
+      "address": "Cillum dolor ut ex s",
+      "date": "1997-05-22",
+      "timeSlot": "08:17",
+      "status": "En attente"
+    },
+    {
+      "id": "b9losntmb",
+      "userId": 1,
       "collectorId": null,
       "waste": [
         {
           "type": "plastic",
-          "estimatedWeight": 1000,
-          "realWeight": 1000,
-          "wastePhotos": "https://via",
-          "estimatedWeight": 1000,
-          "validWaste": true
-        },
-        {
-          "type": "plastic",
-          "estimatedWeight": 1000,
-          "realWeight": 1000,
-          "wastePhotos": "https://via",
-          "estimatedWeight": 1000,
-          "validWaste": true
-
+          "estimatedWeight": 5900,
+          "realWeight": 0,
+          "wastePhotos": "",
+          "validWaste": false
         }
-
       ],
-      "address": "456 Casablanca Avenue",
-      "date": "2025-02-05",
-      "timeSlot": "14:00",
-      "status": "pending"
+      "address": "Accusamus quibusdam ",
+      "date": "1992-08-22",
+      "timeSlot": "16:08",
+      "status": "En attente"
+    },
+    {
+      "id": "39dybgvo7",
+      "userId": "483d",
+      "collectorId": null,
+      "waste": [
+        {
+          "type": "metal",
+          "estimatedWeight": 6900,
+          "realWeight": 0,
+          "wastePhotos": "",
+          "validWaste": false
+        }
+      ],
+      "address": "Sed fugiat aut sed ",
+      "date": "2025-06-18",
+      "timeSlot": "03:18",
+      "status": "En attente"
     }
   ]
 }

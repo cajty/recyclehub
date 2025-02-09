@@ -83,3 +83,18 @@ export const getCollectorsByCityFailure = createAction(
   '[User] Get Collectors By City Failure',
   props<{ error: string }>()
 );
+
+// Convert Points To Balance
+export const convertPointToBalance = createAction(
+  '[User] ConvertPointToBalance',
+  props<{ userId :string ,point: number, balance: number}>()
+)
+export const  convertPointToBalanceSucces = createAction(
+  '[User] ConvertPointToBalanceSucces',
+  props<{ user : User }>()
+)
+
+export const convertPointToBalanceFailure = createAction(
+  '[User] ConvertPointToBalanceFailure',
+  props<{ error: string }>()
+)

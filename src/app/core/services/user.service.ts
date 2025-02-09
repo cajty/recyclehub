@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import {Observable, switchMap} from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../../models/user.model';
 
@@ -16,9 +16,6 @@ export class UserService {
     private router: Router
   ) {}
 
-  getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiUrl);
-  }
 
   getUserById(id: string): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/${id}`);
@@ -40,6 +37,18 @@ export class UserService {
 
   updateUserPoints(id: string, points: number): Observable<User> {
     return this.http.patch<User>(`${this.apiUrl}/${id}`, { points });
+  }
+
+
+  convertPointsToBalance(id: string, points: number, amount :number ): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/${id}`).pipe(
+      map(user => {
+        const newBalance = user.balance + amount ;
+        const newPoints = user.points - points;
+        return {...user, balance: newBalance, points: newPoints};
+      }),
+      switchMap(updatedUser => this.updateUser(id, updatedUser))
+    );
   }
 
   getCollectorsByCity(city: string): Observable<User[]> {

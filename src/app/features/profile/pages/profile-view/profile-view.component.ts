@@ -1,13 +1,14 @@
 import { Component, type OnInit, type OnDestroy } from "@angular/core"
 import { Store } from "@ngrx/store"
-import  { Observable, Subscription } from "rxjs"
+import { Observable, Subscription } from "rxjs"
 import { AsyncPipe, NgIf, CommonModule } from "@angular/common"
 import type { User } from "../../../../models/user.model"
 import * as UserActions from "../../../../store/user/user.actions"
 import * as UserSelectors from "../../../../store/user/user.selectors"
-import  { ActivatedRoute } from "@angular/router"
-import {  FormBuilder,  FormGroup, Validators, ReactiveFormsModule } from "@angular/forms"
-import  { MatSnackBar } from "@angular/material/snack-bar"
+import { ActivatedRoute } from "@angular/router"
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms"
+import { MatSnackBar } from "@angular/material/snack-bar"
+import {AVAILABLE_CONVERSIONS, PointsConversion} from '../../../../models/PointsConversion';
 
 @Component({
   selector: "app-profile-view",
@@ -20,9 +21,10 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
   user$: Observable<User | null>
   loading$: Observable<boolean>
   error$: Observable<string | null>
- userSubscription: Subscription | null = null
-profileForm!: FormGroup
-isEditing: boolean = false
+  userSubscription: Subscription | null = null
+  profileForm!: FormGroup
+  isEditing: boolean = false
+  availableConversions: PointsConversion[] = AVAILABLE_CONVERSIONS
 
   constructor(
     private store: Store,
@@ -97,16 +99,24 @@ isEditing: boolean = false
   }
 
   convertPoints(pointsToRedeem: number): void {
-    const userId = this.profileForm.get("id")?.value
-    if (pointsToRedeem === 100 || pointsToRedeem === 200 || pointsToRedeem === 500) {
+    const userId : string = this.profileForm.get("id")?.value
+    const conversion = this.availableConversions.find(conv => conv.points === pointsToRedeem)
+
+    if (conversion) {
       this.store.dispatch(
-        UserActions.updateUserPoints({
-          id: userId,
-          points: pointsToRedeem,
+        UserActions.convertPointToBalance({
+          userId: userId,
+          point: pointsToRedeem,
+          balance: conversion.amount,
         }),
       )
-      this.snackBar.open(`${pointsToRedeem} points converted successfully`, "Close", { duration: 3000 })
+      this.snackBar.open(
+        `${pointsToRedeem} points converted to ${conversion.amount} Dh voucher`,
+        "Close",
+        { duration: 3000 }
+      )
     }
   }
-}
 
+
+}

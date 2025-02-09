@@ -1,1 +1,65 @@
-<p>collection-detail works!</p>
+<div class="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow">
+  <h2 class="text-2xl font-bold mb-6">Détails de la Collecte</h2>
+
+  <form [formGroup]="collectionForm" (ngSubmit)="onSubmit()" class="space-y-6" *ngIf="collection()">
+    <div formArrayName="wasteItems">
+      <div *ngFor="let item of wasteItems.controls; let i=index" [formGroupName]="i"
+           class="flex flex-wrap gap-4 items-center mb-4">
+        <div class="flex-1">
+          <select formControlName="type" class="w-full p-2 border rounded">
+            <option value="">Sélectionner le type</option>
+            <option *ngFor="let type of wasteTypes" [value]="type">{{type}}</option>
+          </select>
+          <div *ngIf="getWasteControl(i, 'type')?.errors?.['required'] && getWasteControl(i, 'type')?.touched"
+               class="text-red-500 text-sm">Type requis</div>
+        </div>
+
+        <div class="w-32">
+          <input type="number" formControlName="weight" class="w-full p-2 border rounded"
+                 placeholder="Poids (g)">
+          <div *ngIf="getWasteControl(i, 'weight')?.errors as errors" class="text-red-500 text-sm">
+            <div *ngIf="errors?.['required'] && getWasteControl(i, 'weight')?.touched">Poids requis</div>
+            <div *ngIf="errors?.['min']">Minimum 1000g</div>
+            <div *ngIf="errors?.['max']">Maximum 10000g</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <input formControlName="address" type="text" class="w-full p-2 border rounded"
+             placeholder="Adresse de collecte">
+      <div *ngIf="collectionForm.get('address')?.errors?.['required'] && collectionForm.get('address')?.touched"
+           class="text-red-500 text-sm">Adresse requise</div>
+    </div>
+
+    <div class="flex gap-4">
+      <div class="flex-1">
+        <input formControlName="date" type="date" class="w-full p-2 border rounded">
+        <div *ngIf="collectionForm.get('date')?.errors?.['required'] && collectionForm.get('date')?.touched"
+             class="text-red-500 text-sm">Date requise</div>
+      </div>
+
+      <div class="flex-1">
+        <input formControlName="timeSlot" type="time" class="w-full p-2 border rounded">
+        <div *ngIf="collectionForm.get('timeSlot')?.errors?.['required'] && collectionForm.get('timeSlot')?.touched"
+             class="text-red-500 text-sm">Horaire requis</div>
+      </div>
+    </div>
+
+    <textarea formControlName="notes" class="w-full p-2 border rounded"
+              placeholder="Notes supplémentaires" rows="3"></textarea>
+
+    <div class="flex gap-4">
+      <button type="submit" [disabled]="!isFormValid()"
+              class="flex-1 bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700
+                     disabled:opacity-50 disabled:cursor-not-allowed">
+        Mettre à jour
+      </button>
+      <button type="button" (click)="onDelete()"
+              class="flex-1 bg-red-600 text-white p-3 rounded-lg hover:bg-red-700">
+        Supprimer
+      </button>
+    </div>
+  </form>
+</div>

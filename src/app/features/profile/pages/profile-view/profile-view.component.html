@@ -25,19 +25,16 @@
         <!-- User Stats Summary -->
         <div class="grid grid-cols-3 gap-4 p-4 bg-emerald-50 rounded-xl mb-6">
           <div class="text-center p-3 bg-white rounded-lg shadow-sm">
-            <span class="material-symbols-outlined text-emerald-500 text-2xl mb-2">badge</span>
-            <p class="text-sm text-gray-600">Type</p>
+            <span class="material-symbols-outlined text-emerald-500 text-2xl mb-2">type</span>
             <p class="font-semibold capitalize">{{ (user$ | async)?.userType }}</p>
           </div>
           <div class="text-center p-3 bg-white rounded-lg shadow-sm">
-            <span class="material-symbols-outlined text-emerald-500 text-2xl mb-2">stars</span>
-            <p class="text-sm text-gray-600">Points</p>
+            <span class="material-symbols-outlined text-emerald-500 text-2xl mb-2">point</span>
             <p class="font-semibold">{{ (user$ | async)?.points }}</p>
           </div>
           <div class="text-center p-3 bg-white rounded-lg shadow-sm">
-            <span class="material-symbols-outlined text-emerald-500 text-2xl mb-2">account_balance_wallet</span>
-            <p class="text-sm text-gray-600">Balance</p>
-            <p class="font-semibold">{{ (user$ | async)?.balance | currency }}</p>
+            <span class="material-symbols-outlined text-emerald-500 text-2xl mb-2">balance</span>
+            <p class="font-semibold">{{ (user$ | async)?.balance  }} DH</p>
           </div>
         </div>
 
@@ -110,34 +107,20 @@
         </div>
 
         <!-- Points Conversion Section -->
+  <!-- Points Conversion Section -->
         <div class="border-t border-gray-200 pt-6 mt-6">
           <h3 class="text-lg font-semibold mb-4 text-center">Convert Your Points</h3>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <button type="button" (click)="convertPoints(100)"
-                    class="p-4 bg-white border-2 border-emerald-500 rounded-xl hover:bg-emerald-50 transition-all duration-300 group">
+            <button *ngFor="let conversion of availableConversions"
+                    type="button"
+                    (click)="convertPoints(conversion.points)"
+                    [disabled]="((user$ | async)?.points ?? 0) < conversion.points"
+                    class="p-4 bg-white border-2 border-emerald-500 rounded-xl hover:bg-emerald-50 transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed">
               <div class="flex items-center justify-center gap-2 text-emerald-700">
                 <span class="material-symbols-outlined group-hover:scale-110 transition-transform">currency_exchange</span>
-                <span class="font-medium">100 Points</span>
+                <span class="font-medium">{{ conversion.points }} Points</span>
               </div>
-              <p class="text-sm text-gray-600 mt-2 text-center">Get 50 Dh</p>
-            </button>
-
-            <button type="button" (click)="convertPoints(200)"
-                    class="p-4 bg-white border-2 border-emerald-500 rounded-xl hover:bg-emerald-50 transition-all duration-300 group">
-              <div class="flex items-center justify-center gap-2 text-emerald-700">
-                <span class="material-symbols-outlined group-hover:scale-110 transition-transform">currency_exchange</span>
-                <span class="font-medium">200 Points</span>
-              </div>
-              <p class="text-sm text-gray-600 mt-2 text-center">Get 120 Dh</p>
-            </button>
-
-            <button type="button" (click)="convertPoints(500)"
-                    class="p-4 bg-white border-2 border-emerald-500 rounded-xl hover:bg-emerald-50 transition-all duration-300 group">
-              <div class="flex items-center justify-center gap-2 text-emerald-700">
-                <span class="material-symbols-outlined group-hover:scale-110 transition-transform">currency_exchange</span>
-                <span class="font-medium">500 Points</span>
-              </div>
-              <p class="text-sm text-gray-600 mt-2 text-center">Get 350 Dh</p>
+              <p class="text-sm text-gray-600 mt-2 text-center">Get {{ conversion.amount }} Dh</p>
             </button>
           </div>
         </div>

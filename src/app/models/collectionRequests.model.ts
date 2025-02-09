@@ -3,7 +3,7 @@ import {CollectionStatus} from './CollectionStatus';
 
 export interface CollectionRequest {
   id: string;
-  userId: number;
+  userId: String;
   collectorId: number | null;
   waste: Waste[];
   address: string;

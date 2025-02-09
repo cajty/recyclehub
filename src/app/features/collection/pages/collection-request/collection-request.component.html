@@ -1,1 +1,98 @@
-<p>collection-request works!</p>
+<div class="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow">
+  <h2 class="text-2xl font-bold mb-6">Nouvelle Demande de Collecte</h2>
+
+  <form [formGroup]="collectionForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <div formArrayName="wasteItems">
+      <div *ngFor="let item of wasteItems.controls; let i=index" [formGroupName]="i"
+           class="flex flex-wrap gap-4 items-center mb-4">
+        <div class="flex-1">
+          <select formControlName="type" class="w-full p-2 border rounded" [ngClass]="{'border-red-500': item.get('type')?.errors?.['required'] && item.get('type')?.touched}">
+            <option value="">Sélectionner le type</option>
+            <option *ngFor="let type of wasteTypes" [value]="type">
+              {{type | titlecase}}
+            </option>
+          </select>
+          <span class="text-red-500 text-sm" *ngIf="item.get('type')?.errors?.['required'] && item.get('type')?.touched">
+            {{validationMessages.waste.type.required}}
+          </span>
+        </div>
+
+        <div class="w-32">
+          <input type="number" formControlName="weight"
+                 class="w-full p-2 border rounded" placeholder="Poids (g)"
+                 [ngClass]="{'border-red-500': (item.get('weight')?.errors?.['required'] || item.get('weight')?.errors?.['min']) && item.get('weight')?.touched}">
+          <span class="text-red-500 text-sm" *ngIf="item.get('weight')?.errors?.['required'] && item.get('weight')?.touched">
+            {{validationMessages.waste.weight.required}}
+          </span>
+          <span class="text-red-500 text-sm" *ngIf="item.get('weight')?.errors?.['min'] && item.get('weight')?.touched">
+            {{validationMessages.waste.weight.min}}
+          </span>
+        </div>
+
+        <button type="button" (click)="removeWasteItem(i)"
+                class="p-2 text-red-600 hover:bg-red-50 rounded">
+          <span class="sr-only">Supprimer</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="flex justify-between items-center">
+      <button type="button" (click)="addWasteItem()"
+              class="flex items-center gap-2 text-blue-600 hover:bg-blue-50 p-2 rounded">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        Ajouter un déchet
+      </button>
+      <div class="font-semibold">
+        Total: {{totalWeight}}g
+      </div>
+    </div>
+
+    <div>
+      <input formControlName="address" type="text"
+             class="w-full p-2 border rounded" placeholder="Adresse de collecte"
+             [ngClass]="{'border-red-500': collectionForm.get('address')?.errors?.['required'] && collectionForm.get('address')?.touched}">
+      <span class="text-red-500 text-sm" *ngIf="collectionForm.get('address')?.errors?.['required'] && collectionForm.get('address')?.touched">
+        {{validationMessages.address.required}}
+      </span>
+    </div>
+
+    <div class="flex gap-4">
+      <div class="flex-1">
+        <input formControlName="date" type="date" [min]="today"
+               class="w-full p-2 border rounded"
+               [ngClass]="{'border-red-500': collectionForm.get('date')?.errors?.['required'] && collectionForm.get('date')?.touched}">
+        <span class="text-red-500 text-sm" *ngIf="collectionForm.get('date')?.errors?.['required'] && collectionForm.get('date')?.touched">
+          {{validationMessages.date.required}}
+        </span>
+      </div>
+
+      <div class="flex-1">
+        <input formControlName="timeSlot" type="time" min="09:00" max="18:00"
+               class="w-full p-2 border rounded"
+               [ngClass]="{'border-red-500': (collectionForm.get('timeSlot')?.errors?.['required'] || collectionForm.get('timeSlot')?.errors?.['pattern']) && collectionForm.get('timeSlot')?.touched}">
+        <span class="text-red-500 text-sm" *ngIf="collectionForm.get('timeSlot')?.errors?.['required'] && collectionForm.get('timeSlot')?.touched">
+          {{validationMessages.timeSlot.required}}
+        </span>
+        <span class="text-red-500 text-sm" *ngIf="collectionForm.get('timeSlot')?.errors?.['pattern'] && collectionForm.get('timeSlot')?.touched">
+          {{validationMessages.timeSlot.pattern}}
+        </span>
+      </div>
+    </div>
+
+
+    <button type="submit" [disabled]="!collectionForm.valid || totalWeight < 1000 || totalWeight > 10000"
+            class="w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 disabled:opacity-50
+                   disabled:cursor-not-allowed flex items-center justify-center gap-2">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+      </svg>
+      Soumettre la demande
+    </button>
+  </form>
+</div>

@@ -128,5 +128,25 @@ export const userReducer = createReducer(
     ...state,
     loading: false,
     error
-  }))
+  })),
+
+
+// Convert Points To Balance
+on(UserActions.convertPointToBalance, (state) => ({
+  ...state,
+  loading: true,
+  error: null
+})),
+on(UserActions.convertPointToBalanceSucces, (state, { user }) => ({
+  ...state,
+  users: state.users.map(u => u.id === user.id ? user : u),
+  loading: false,
+  error: null
+})),
+on(UserActions.convertPointToBalanceFailure, (state, { error }) => ({
+  ...state,
+  loading: false,
+  error
+})),
+
 );

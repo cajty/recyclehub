@@ -10,17 +10,12 @@ import { CollectionStatus } from '../../models/CollectionStatus';
   providedIn: 'root'
 })
 export class CollectionService {
-  private apiUrl = 'http://localhost:3000/collection-requests';
+  private apiUrl = 'http://localhost:3000/collectionRequests';
 
   constructor(private http: HttpClient) {}
 
-  createRequest(request: Omit<CollectionRequest, 'id' | 'status' | 'collectorId'>): Observable<CollectionRequest> {
-    const newRequest = {
-      ...request,
-      status: CollectionStatus.Pending,
-      collectorId: null
-    };
-    return this.http.post<CollectionRequest>(this.apiUrl, newRequest);
+  createRequest(request: CollectionRequest): Observable<CollectionRequest> {
+    return this.http.post<CollectionRequest>(this.apiUrl, request);
   }
 
   getUserRequests(userId: number): Observable<CollectionRequest[]> {
@@ -33,37 +28,59 @@ export class CollectionService {
       .set('status', CollectionStatus.Pending)
       .set('q', city);
 
-    return this.http.get<CollectionRequest[]>(this.apiUrl, { params })
-      .pipe(
-        map(requests => requests.filter(request =>
+    return this.http.get<CollectionRequest[]>(this.apiUrl, { params }).pipe(
+      map(requests =>
+        requests.filter(request =>
           request.address.toLowerCase().includes(city.toLowerCase())
-        ))
-      );
+        )
+      )
+    );
   }
 
   getRequestById(requestId: string): Observable<CollectionRequest> {
     return this.http.get<CollectionRequest>(`${this.apiUrl}/${requestId}`);
   }
 
-  updateRequestStatus(requestId: string, newStatus: CollectionStatus, collectorId?: number): Observable<CollectionRequest> {
-    const updates = { status: newStatus, ...(collectorId && { collectorId }) };
-    return this.http.patch<CollectionRequest>(`${this.apiUrl}/${requestId}`, updates);
+  updateRequestStatus(
+    requestId: string,
+    newStatus: CollectionStatus,
+    collectorId?: number
+  ): Observable<CollectionRequest> {
+    const updates = {
+      status: newStatus,
+      ...(collectorId && { collectorId })
+    };
+    return this.http.patch<CollectionRequest>(
+      `${this.apiUrl}/${requestId}`,
+      updates
+    );
   }
 
-  updateWasteDetails(requestId: string, waste: Waste[]): Observable<CollectionRequest> {
-    return this.http.patch<CollectionRequest>(`${this.apiUrl}/${requestId}`, { waste });
+  updateWasteDetails(
+    requestId: string,
+    waste: Waste[]
+  ): Observable<CollectionRequest> {
+    return this.http.patch<CollectionRequest>(`${this.apiUrl}/${requestId}`, {
+      waste
+    });
   }
 
   deleteRequest(requestId: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${requestId}`);
   }
 
-  updateRequest(requestId: string, updates: Partial<CollectionRequest>): Observable<CollectionRequest> {
+  updateRequest(
+    requestId: string,
+    updates: CollectionRequest
+  ): Observable<CollectionRequest> {
     const validUpdates = {
       ...updates,
       status: CollectionStatus.Pending,
       collectorId: null
     };
-    return this.http.patch<CollectionRequest>(`${this.apiUrl}/${requestId}`, validUpdates);
+    return this.http.patch<CollectionRequest>(
+      `${this.apiUrl}/${requestId}`,
+      validUpdates
+    );
   }
 }

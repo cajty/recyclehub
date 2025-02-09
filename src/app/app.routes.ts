@@ -4,6 +4,7 @@ import { RegisterComponent } from './features/auth/pages/register/register.compo
 import { ProfileViewComponent } from './features/profile/pages/profile-view/profile-view.component';
 import {CollectionDetailComponent} from './features/collection/pages/collection-detail/collection-detail.component';
 import {CollectionComponent} from './features/collection/pages/collection/collection.component';
+import {authGuard} from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -31,12 +32,13 @@ export const routes: Routes = [
         component: CollectionDetailComponent
 
       }
-    ]
-
+    ],
+        canActivate: [authGuard]
   },
   {
     path: 'profile',
-        component: ProfileViewComponent
+        component: ProfileViewComponent,
+        canActivate: [authGuard]
   }
 
 ];

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import {Router, RouterModule} from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig } from '@angular/core';
 import { AuthService } from '../../../../core/services/auth.service';
@@ -24,7 +24,11 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   selectedImage: string | null = null;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.registerForm = this.fb.group({
@@ -72,13 +76,12 @@ export class RegisterComponent implements OnInit {
       };
 
       this.authService.register(userData).subscribe({
-        next: (response) => {
-          console.log('Registration successful', response);
-          // Handle successful registration (e.g., redirect to login)
+        next: (user) => {
+           localStorage.setItem('user-id', user.id);
+            this.router.navigate(['/profile']);
         },
         error: (error) => {
           console.error('Registration failed', error);
-          // Handle registration error (e.g., show error message)
         }
       });
     } else {

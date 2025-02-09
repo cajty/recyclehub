@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CollectionService } from '../../../../core/services/collection.service';
 import {CollectionRequest} from '../../../../models/collectionRequests.model';
+import {Router, RouterModule} from '@angular/router';
 
 @Component({
   selector: 'app-collection-list',
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule
   ],
   templateUrl: './collection-list.component.html',
   styles: [`
@@ -20,7 +22,10 @@ import {CollectionRequest} from '../../../../models/collectionRequests.model';
 export class CollectionListComponent implements OnInit {
   requests: CollectionRequest[] = [];
 
-  constructor(private collectionService: CollectionService) {}
+  constructor(
+    private collectionService: CollectionService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.collectionService.getUserRequests(2).subscribe(requests => {
@@ -30,5 +35,8 @@ export class CollectionListComponent implements OnInit {
 
   getStatusClass(status: string): string {
     return `status-${status.toLowerCase()}`;
+  }
+  getrequestDetails(id: string): void {
+    this.router.navigate(['/collection', id]);
   }
 }

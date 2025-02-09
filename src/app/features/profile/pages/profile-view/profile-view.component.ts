@@ -52,7 +52,6 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
         this.store.dispatch(UserActions.loadUserById({ id: id }))
       }
     })
-
     this.userSubscription = this.user$.subscribe((user) => {
       if (user) {
         this.profileForm.patchValue({
@@ -65,6 +64,8 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
         })
       }
     })
+
+
   }
 
   ngOnDestroy(): void {

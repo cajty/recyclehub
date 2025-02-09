@@ -256,6 +256,13 @@
           "realWeight": 0,
           "wastePhotos": "",
           "validWaste": false
+        },
+        {
+          "type": "paper",
+          "estimatedWeight": 1111,
+          "realWeight": 0,
+          "wastePhotos": "",
+          "validWaste": false
         }
       ],
       "address": "DDDDDDDDDDD",
@@ -279,6 +286,56 @@
       "address": "DDDDDDDDDDDD",
       "date": "2025-02-09",
       "timeSlot": "09:34",
+      "status": "En attente"
+    },
+    {
+      "id": "jbw947mr6",
+      "userId": "2",
+      "collectorId": null,
+      "waste": [
+        {
+          "type": "plastic",
+          "estimatedWeight": 1,
+          "realWeight": 0,
+          "wastePhotos": "",
+          "validWaste": false
+        },
+        {
+          "type": "plastic",
+          "estimatedWeight": 2,
+          "realWeight": 0,
+          "wastePhotos": "",
+          "validWaste": false
+        }
+      ],
+      "address": "adrese",
+      "date": "2025-02-09",
+      "timeSlot": "13:38",
+      "status": "En attente"
+    },
+    {
+      "id": "b0jcpc6fm",
+      "userId": "2",
+      "collectorId": null,
+      "waste": [
+        {
+          "type": "plastic",
+          "estimatedWeight": 8,
+          "realWeight": 0,
+          "wastePhotos": "",
+          "validWaste": false
+        },
+        {
+          "type": "paper",
+          "estimatedWeight": 1,
+          "realWeight": 0,
+          "wastePhotos": "",
+          "validWaste": false
+        }
+      ],
+      "address": "ddddd",
+      "date": "2025-02-18",
+      "timeSlot": "16:43",
       "status": "En attente"
     }
   ]

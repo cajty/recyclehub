@@ -45,7 +45,7 @@ export class LoginComponent {
       this.authService.login(this.loginData.email, this.loginData.password)
         .subscribe({
           next: (user) => {
-            localStorage.setItem('currentUser', JSON.stringify(user));
+            localStorage.setItem('user-id', user.id);
             this.router.navigate(['/profile']);
           },
           error: (error) => {

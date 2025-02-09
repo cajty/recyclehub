@@ -8,5 +8,6 @@ export interface User {
   dateOfBirth: string;
   profilePicture: string;
   userType: string;
+  balance: number;
   points: number;
 }

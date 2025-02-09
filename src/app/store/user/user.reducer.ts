@@ -2,6 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as UserActions from './user.actions';
 import { User } from '../../models/user.model';
 
+
 export interface UserState {
   users: User[];
   collectors: User[];
@@ -36,7 +37,7 @@ export const userReducer = createReducer(
     error
   })),
 
-  // Load User By Id
+  // Load User By Email
   on(UserActions.loadUserById, (state) => ({
     ...state,
     loading: true,
@@ -54,23 +55,8 @@ export const userReducer = createReducer(
     error
   })),
 
-  // Create User
-  on(UserActions.createUser, (state) => ({
-    ...state,
-    loading: true,
-    error: null
-  })),
-  on(UserActions.createUserSuccess, (state, { user }) => ({
-    ...state,
-    users: [...state.users, user],
-    loading: false,
-    error: null
-  })),
-  on(UserActions.createUserFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error
-  })),
+
+
 
   // Update User
   on(UserActions.updateUser, (state) => ({
@@ -142,5 +128,25 @@ export const userReducer = createReducer(
     ...state,
     loading: false,
     error
-  }))
+  })),
+
+
+// Convert Points To Balance
+on(UserActions.convertPointToBalance, (state) => ({
+  ...state,
+  loading: true,
+  error: null
+})),
+on(UserActions.convertPointToBalanceSucces, (state, { user }) => ({
+  ...state,
+  users: state.users.map(u => u.id === user.id ? user : u),
+  loading: false,
+  error: null
+})),
+on(UserActions.convertPointToBalanceFailure, (state, { error }) => ({
+  ...state,
+  loading: false,
+  error
+})),
+
 );

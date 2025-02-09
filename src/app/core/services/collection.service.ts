@@ -1,42 +1,86 @@
-
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CollectionRequest } from '../../models/collectionRequests.model';
+import { Waste } from '../../models/waste.model';
+import { CollectionStatus } from '../../models/CollectionStatus';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CollectionService {
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = 'http://localhost:3000/collectionRequests';
 
   constructor(private http: HttpClient) {}
 
-  createRequest(requestData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/collectionRequests`, {
-      ...requestData,
-      status: 'pending',
-      createdAt: new Date()
-    });
+  createRequest(request: CollectionRequest): Observable<CollectionRequest> {
+    return this.http.post<CollectionRequest>(this.apiUrl, request);
   }
 
-  getRequestsByUser(userId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/collectionRequests?userId=${userId}`);
+  getUserRequests(userId: number): Observable<CollectionRequest[]> {
+    const params = new HttpParams().set('userId', userId.toString());
+    return this.http.get<CollectionRequest[]>(this.apiUrl, { params });
   }
 
-  getRequestsByCity(city: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/collectionRequests`).pipe(
-      map(requests => requests.filter(req => req.address.includes(city)))
+  getPendingRequestsByCity(city: string): Observable<CollectionRequest[]> {
+    const params = new HttpParams()
+      .set('status', CollectionStatus.Pending)
+      .set('q', city);
+
+    return this.http.get<CollectionRequest[]>(this.apiUrl, { params }).pipe(
+      map(requests =>
+        requests.filter(request =>
+          request.address.toLowerCase().includes(city.toLowerCase())
+        )
+      )
     );
   }
 
-  updateRequest(requestId: number, data: any): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/collectionRequests/${requestId}`, data);
+  getRequestById(requestId: string): Observable<CollectionRequest> {
+    return this.http.get<CollectionRequest>(`${this.apiUrl}/${requestId}`);
   }
 
-  deleteRequest(requestId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/collectionRequests/${requestId}`);
+  updateRequestStatus(
+    requestId: string,
+    newStatus: CollectionStatus,
+    collectorId?: number
+  ): Observable<CollectionRequest> {
+    const updates = {
+      status: newStatus,
+      ...(collectorId && { collectorId })
+    };
+    return this.http.patch<CollectionRequest>(
+      `${this.apiUrl}/${requestId}`,
+      updates
+    );
   }
 
+  updateWasteDetails(
+    requestId: string,
+    waste: Waste[]
+  ): Observable<CollectionRequest> {
+    return this.http.patch<CollectionRequest>(`${this.apiUrl}/${requestId}`, {
+      waste
+    });
+  }
 
+  deleteRequest(requestId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${requestId}`);
+  }
+
+  updateRequest(
+    requestId: string,
+    updates: CollectionRequest
+  ): Observable<CollectionRequest> {
+    const validUpdates = {
+      ...updates,
+      status: CollectionStatus.Pending,
+      collectorId: null
+    };
+    return this.http.patch<CollectionRequest>(
+      `${this.apiUrl}/${requestId}`,
+      validUpdates
+    );
+  }
 }

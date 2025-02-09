@@ -12,10 +12,10 @@ export const loadUsersFailure = createAction(
   props<{ error: string }>()
 );
 
-// Load User By Id
+// Load User By id
 export const loadUserById = createAction(
   '[User] Load User By Id',
-  props<{ id: string }>()
+  props<{id : string }>()
 );
 export const loadUserByIdSuccess = createAction(
   '[User] Load User By Id Success',
@@ -26,19 +26,7 @@ export const loadUserByIdFailure = createAction(
   props<{ error: string }>()
 );
 
-// Create User
-export const createUser = createAction(
-  '[User] Create User',
-  props<{ user: User }>()
-);
-export const createUserSuccess = createAction(
-  '[User] Create User Success',
-  props<{ user: User }>()
-);
-export const createUserFailure = createAction(
-  '[User] Create User Failure',
-  props<{ error: string }>()
-);
+
 
 // Update User
 export const updateUser = createAction(
@@ -95,3 +83,18 @@ export const getCollectorsByCityFailure = createAction(
   '[User] Get Collectors By City Failure',
   props<{ error: string }>()
 );
+
+// Convert Points To Balance
+export const convertPointToBalance = createAction(
+  '[User] ConvertPointToBalance',
+  props<{ userId :string ,point: number, balance: number}>()
+)
+export const  convertPointToBalanceSucces = createAction(
+  '[User] ConvertPointToBalanceSucces',
+  props<{ user : User }>()
+)
+
+export const convertPointToBalanceFailure = createAction(
+  '[User] ConvertPointToBalanceFailure',
+  props<{ error: string }>()
+)

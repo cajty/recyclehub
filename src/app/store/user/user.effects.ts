@@ -2,9 +2,10 @@ import {inject, Injectable} from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of, switchMap } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
-
 import * as UserActions from './user.actions';
 import { UserService } from '../../core/services/user.service';
+
+
 
 @Injectable()
 export class UserEffects {
@@ -23,17 +24,7 @@ export class UserEffects {
     )
   );
 
-  createUser$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(UserActions.createUser),
-      mergeMap(({ user }) =>
-        this.userService.createUser(user).pipe(
-          map(newUser => UserActions.createUserSuccess({ user: newUser })),
-          catchError(error => of(UserActions.createUserFailure({ error: error.message })))
-        )
-      )
-    )
-  );
+
 
   updateUser$ = createEffect(() =>
     this.actions$.pipe(
@@ -46,6 +37,7 @@ export class UserEffects {
       )
     )
   );
+
 
   deleteUser$ = createEffect(() =>
     this.actions$.pipe(
@@ -70,4 +62,34 @@ export class UserEffects {
       )
     )
   );
+   updateUserPoints$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.updateUserPoints),
+      mergeMap(({ id, points }) =>
+        this.userService.updateUserPoints(id, points).pipe(
+          map(updatedUser => UserActions.updateUserPointsSuccess({ user: updatedUser })),
+          catchError(error => of(UserActions.updateUserPointsFailure({ error: error.message })))
+        )
+      )
+    )
+  );
+
+
+  ConvertPointToBalance$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(UserActions.convertPointToBalance),
+    mergeMap(({ userId ,point, balance}) =>
+    this.userService.convertPointsToBalance(userId ,point, balance).pipe(
+      map(updatedUser => UserActions.updateUserPointsSuccess({ user: updatedUser })),
+      catchError(error => of(UserActions.updateUserPointsFailure({ error: error.message })))
+    )
+    )
+  )
+  );
+
+
+
+
+
+
 }

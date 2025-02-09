@@ -11,7 +11,7 @@ import {CollectionRequestComponent} from '../collection-request/collection-reque
   standalone: true,
   imports: [CommonModule,
     ReactiveFormsModule,
-     CollectionRequestComponent
+    CollectionRequestComponent, CollectionListComponent
   ],
   templateUrl: './collection.component.html',
 })

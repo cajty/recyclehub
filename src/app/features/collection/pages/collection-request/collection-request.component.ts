@@ -1,12 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { WasteType } from '../../../../models/WasteType';
 import { CollectionRequest } from '../../../../models/collectionRequests.model';
 import { CollectionStatus } from '../../../../models/CollectionStatus';
 import { CollectionService } from '../../../../core/services/collection.service';
-
 
 @Component({
   selector: 'app-collection-request',
@@ -30,7 +28,7 @@ export class CollectionRequestComponent {
     },
     date: {
       required: 'La date est requise',
-      min: 'La date doit être dans le futur'
+      min: 'La date doit être aujourd\'hui ou dans le futur'
     },
     waste: {
       type: { required: 'Le type de déchet est requis' },
@@ -38,6 +36,10 @@ export class CollectionRequestComponent {
         required: 'Le poids est requis',
         min: 'Le poids doit être positif'
       }
+    },
+    totalWeight: {
+      min: 'Le poids total doit être d\'au moins 1 kg',
+      max: 'Le poids total ne peut pas dépasser 10 kg'
     }
   };
 
@@ -48,13 +50,43 @@ export class CollectionRequestComponent {
     this.collectionForm = this.fb.group({
       wasteItems: this.fb.array([]),
       address: ['', Validators.required],
-      date: [this.today, [Validators.required, Validators.min(new Date().getTime())]],
-      timeSlot: ['', [Validators.required, Validators.pattern('^([0-9]|0[0-9]|1[0-8]):[0-5][0-9]$')]],
+      date: [this.today, [Validators.required, this.futureDateValidator]],
+      timeSlot: ['', [Validators.required, this.timeSlotValidator]],
       notes: ['']
-    });
+    }, { validators: this.totalWeightValidator });
 
     this.addWasteItem();
     this.watchWeightChanges();
+  }
+
+  // Custom validators
+  private futureDateValidator(control: AbstractControl): ValidationErrors | null {
+    const selectedDate = new Date(control.value);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return selectedDate >= today ? null : { min: true };
+  }
+
+  private timeSlotValidator(control: AbstractControl): ValidationErrors | null {
+    const time = control.value;
+    if (!time) return null;
+
+    const [hours, minutes] = time.split(':').map(Number);
+    if (hours < 9 || hours > 18) return { invalidTime: true };
+    if (hours === 18 && minutes > 0) return { invalidTime: true };
+
+    return null;
+  }
+
+  private totalWeightValidator(form: AbstractControl): ValidationErrors | null {
+    const wasteItems = form.get('wasteItems')?.value;
+    if (!wasteItems) return null;
+
+    const total = wasteItems.reduce((sum: number, item: any) => sum + (Number(item.weight) || 0), 0);
+    if (total < 1) return { minWeight: true };
+    if (total > 10) return { maxWeight: true };
+
+    return null;
   }
 
   get wasteItems() {
@@ -64,7 +96,7 @@ export class CollectionRequestComponent {
   createWasteItem(): FormGroup {
     return this.fb.group({
       type: ['', Validators.required],
-      weight: [0, [Validators.required, Validators.min(0)]]
+      weight: [0, [Validators.required, Validators.min(0.1)]]
     });
   }
 
@@ -86,7 +118,7 @@ export class CollectionRequestComponent {
   }
 
   onSubmit() {
-    if (this.collectionForm.valid && this.totalWeight >= 1 && this.totalWeight <= 10) {
+    if (this.collectionForm.valid) {
       const formValue = this.collectionForm.value;
       const userId: string | null = localStorage.getItem("user-id");
 
@@ -110,8 +142,10 @@ export class CollectionRequestComponent {
       this.collectionService.createRequest(collection).subscribe(
         (response) => {
           console.log('Request created successfully', response);
-          this.collectionForm.reset();
-          this.addWasteItem();
+          this.collectionForm.reset({
+            wasteItems: this.fb.array([this.createWasteItem()]),
+            date: this.today
+          });
           this.totalWeight = 0;
         },
         (error) => {

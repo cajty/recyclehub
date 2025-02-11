@@ -1,1 +1,61 @@
-<p>header works!</p>
+<header class="bg-emerald-700 shadow-md">
+  <nav class="container mx-auto px-4">
+    <div class="flex justify-between items-center py-4">
+      <a [routerLink]="['/']" class="flex items-center space-x-2 text-white text-xl font-bold">
+        <i class="fas fa-recycle text-2xl"></i>
+        <span>RecycleHub</span>
+      </a>
+
+      <button
+        (click)="toggleMenu()"
+        [attr.aria-expanded]="isMenuOpen"
+        class="lg:hidden text-white focus:outline-none"
+      >
+        <span class="sr-only">Toggle menu</span>
+        <i class="fas" [ngClass]="{'fa-bars': !isMenuOpen, 'fa-times': isMenuOpen}"></i>
+      </button>
+
+      <div
+        class="lg:flex items-center space-x-4"
+        [ngClass]="{'hidden': !isMenuOpen, 'flex flex-col absolute top-16 left-0 right-0 bg-emerald-700 p-4 space-y-4 lg:space-y-0 lg:flex-row lg:relative lg:top-auto lg:bg-transparent': isMenuOpen}"
+      >
+        <ng-container *ngIf="!isLoggedIn()">
+          <a [routerLink]="['/user/login']"
+             routerLinkActive=" text-emerald-700"
+             class="px-4 py-2 rounded-md text-white bg-emerald-600 hover:bg-emerald-500 transition duration-300 ease-in-out flex items-center space-x-2"
+             (click)="isMenuOpen = false">
+             <i class="fas fa-sign-in-alt"></i>
+             <span>Login</span>
+          </a>
+          <a [routerLink]="['/user/register']"
+             routerLinkActive="bg- text-emerald-700"
+             class="px-4 py-2 rounded-md text-white border border-white hover:bg-white hover:text-emerald-700 transition duration-300 ease-in-out flex items-center space-x-2"
+             (click)="isMenuOpen = false">
+             <i class="fas fa-user-plus"></i>
+             <span>Register</span>
+          </a>
+        </ng-container>
+
+        <ng-container *ngIf="isLoggedIn()">
+          <button (click)="logout()"
+                  class="px-4 py-2 rounded-md text-white bg-red-500 hover:bg-red-600 transition duration-300 ease-in-out flex items-center space-x-2">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </button>
+           <a [routerLink]="['/profile']"
+             routerLinkActive=" text-emerald-700"
+             class="px-4 py-2 rounded-md text-white bg-emerald-600 hover:bg-emerald-500 transition duration-300 ease-in-out flex items-center space-x-2"
+             (click)="isMenuOpen = false">
+             <span>Profile</span>
+          </a>
+            <a [routerLink]="['/collection']"
+             routerLinkActive=" text-emerald-700"
+             class="px-4 py-2 rounded-md text-white bg-emerald-600 hover:bg-emerald-500 transition duration-300 ease-in-out flex items-center space-x-2"
+             (click)="isMenuOpen = false">
+             <span>Collection</span>
+          </a>
+        </ng-container>
+      </div>
+    </div>
+  </nav>
+</header>

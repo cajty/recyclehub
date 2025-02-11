@@ -1,1 +1,105 @@
-<p>login works!</p>
+<div class="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50 py-8 px-4 flex items-center justify-center">
+  <div class="max-w-md w-full bg-white rounded-xl shadow-lg p-8 transition-all duration-300 hover:shadow-xl">
+    <div class="text-center mb-8">
+      <div class="mb-4 flex justify-center">
+        <svg class="w-12 h-12 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+        </svg>
+      </div>
+      <h2 class="text-3xl font-bold text-gray-800 mb-2">Welcome Back</h2>
+      <p class="text-gray-600">Continue your eco-friendly journey with RecycleHub</p>
+    </div>
+
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" class="space-y-6">
+      <div class="space-y-5">
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+            <svg class="w-4 h-4 mr-2 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            Email Address
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            #email="ngModel"
+            [(ngModel)]="loginData.email"
+            required
+            email
+            class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 transition-all"
+            [class.border-red-500]="email.invalid && (email.dirty || email.touched)"
+            placeholder="you@example.com">
+          <div *ngIf="email.invalid && (email.dirty || email.touched)" class="mt-2 text-sm text-red-600 flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+            <div>
+              <div *ngIf="email.errors?.['required']">Email is required</div>
+              <div *ngIf="email.errors?.['email']">Please enter a valid email</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+            <svg class="w-4 h-4 mr-2 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            Password
+          </label>
+          <div class="relative">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              name="password"
+              #password="ngModel"
+              [(ngModel)]="loginData.password"
+              required
+              minlength="6"
+              class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 transition-all pr-12"
+              [class.border-red-500]="password.invalid && (password.dirty || password.touched)"
+              placeholder="••••••••">
+            <button
+              type="button"
+              (click)="togglePasswordVisibility()"
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-emerald-600 transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+              </svg>
+            </button>
+          </div>
+          <div *ngIf="password.invalid && (password.dirty || password.touched)" class="mt-2 text-sm text-red-600 flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+            <div>
+              <div *ngIf="password.errors?.['required']">Password is required</div>
+              <div *ngIf="password.errors?.['minlength']">Minimum 6 characters required</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <button
+          type="submit"
+          class="w-full bg-emerald-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-emerald-700 transform transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+          [disabled]="loginForm.invalid">
+          Sign In →
+        </button>
+
+        <div class="text-center text-sm text-gray-600">
+          New to RecycleHub?
+          <a routerLink="/user/register" class="text-emerald-600 hover:text-emerald-700 font-medium inline-flex items-center">
+            Create account
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

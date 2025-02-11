@@ -18,24 +18,15 @@ export class CollectionService {
     return this.http.post<CollectionRequest>(this.apiUrl, request);
   }
 
-  getUserRequests(userId: number): Observable<CollectionRequest[]> {
+  getUserRequests(userId: string): Observable<CollectionRequest[]> {
     const params = new HttpParams().set('userId', userId.toString());
     return this.http.get<CollectionRequest[]>(this.apiUrl, { params });
   }
 
-  getPendingRequestsByCity(city: string): Observable<CollectionRequest[]> {
-    const params = new HttpParams()
-      .set('status', CollectionStatus.Pending)
-      .set('q', city);
-
-    return this.http.get<CollectionRequest[]>(this.apiUrl, { params }).pipe(
-      map(requests =>
-        requests.filter(request =>
-          request.address.toLowerCase().includes(city.toLowerCase())
-        )
-      )
-    );
-  }
+getPendingRequests(): Observable<CollectionRequest[]> {
+  const params = new HttpParams().set('status', CollectionStatus.Pending);
+  return this.http.get<CollectionRequest[]>(this.apiUrl, { params });
+}
 
   getRequestById(requestId: string): Observable<CollectionRequest> {
     return this.http.get<CollectionRequest>(`${this.apiUrl}/${requestId}`);
@@ -56,14 +47,7 @@ export class CollectionService {
     );
   }
 
-  updateWasteDetails(
-    requestId: string,
-    waste: Waste[]
-  ): Observable<CollectionRequest> {
-    return this.http.patch<CollectionRequest>(`${this.apiUrl}/${requestId}`, {
-      waste
-    });
-  }
+
 
   deleteRequest(requestId: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${requestId}`);

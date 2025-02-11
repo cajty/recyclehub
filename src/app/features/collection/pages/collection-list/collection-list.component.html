@@ -8,7 +8,7 @@
             <div class="flex justify-between items-start mb-3">
                 <div>
                     <h3 class="text-base font-semibold text-gray-900 flex items-center gap-2">
-                        <button class="bg-blue-50 text-blue-800 text-xs px-2 py-1 rounded-full" (click)="getrequestDetails(request.id)">change</button>
+                        <button *ngIf="!isCollector" class="bg-blue-50 text-blue-800 text-xs px-2 py-1 rounded-full" (click)="getrequestDetails(request.id)">change</button>
 
                         <span class="text-gray-500 text-sm font-medium">{{request.date | date:'dd MMM yyyy'}}</span>
                     </h3>
@@ -16,10 +16,18 @@
                         <span class="inline-block mr-2">🕒 {{request.timeSlot}}</span>
                     </p>
                 </div>
-                <span class="px-2.5 py-1 rounded-full text-xs font-semibold leading-4 capitalize transition-colors"
-                      [ngClass]="getStatusClass(request.status)">
-                    {{request.status}}
+                <span *ngIf="!isCollector; else statusDisplay">
+                  <select [(ngModel)]="request.status" (change)="updateRequestStatus(request.id, request.status)"
+                          class="px-2.5 py-1 rounded-full text-xs font-semibold leading-4 capitalize transition-colors">
+                    <option *ngFor="let status of collectionStatuses" [value]="status">{{status}}</option>
+                  </select>
                 </span>
+                <ng-template #statusDisplay>
+                  <span class="px-2.5 py-1 rounded-full text-xs font-semibold leading-4 capitalize transition-colors"
+                        [ngClass]="getStatusClass(request.status)">
+                    {{request.status}}
+                  </span>
+                </ng-template>
             </div>
 
             <!-- Address Section -->

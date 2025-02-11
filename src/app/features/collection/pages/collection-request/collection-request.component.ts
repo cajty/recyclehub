@@ -16,7 +16,15 @@ export class CollectionRequestComponent {
   collectionForm: FormGroup;
   today = new Date().toISOString().split('T')[0];
   wasteTypes = Object.values(WasteType);
-  totalWeight = 0;
+  totalWeight : number = 0;
+  totalPoints: number = 0;
+  collectionStatuses = Object.values(CollectionStatus);
+  readonly wastePoints: { [key in WasteType]: number } = {
+    [WasteType.Plastic]: 2,
+    [WasteType.Paper]: 1,
+    [WasteType.Glass]: 1,
+    [WasteType.Metal]: 5
+  };
 
   validationMessages = {
     address: {
@@ -109,11 +117,19 @@ export class CollectionRequestComponent {
       this.wasteItems.removeAt(index);
     }
   }
+ calculatePoints() {
+   this.totalPoints = this.wasteItems.controls.reduce((total, control) => {
+     const type = control.get('type')?.value as WasteType;
+     const weight = Number(control.get('weight')?.value) || 0;
+     return total + (weight * (this.wastePoints[type] || 0));
+   }, 0);
+ }
 
   watchWeightChanges() {
     this.wasteItems.valueChanges.subscribe(items => {
       this.totalWeight = items.reduce((total: number, item: any) =>
         total + (Number(item.weight) || 0), 0);
+       this.calculatePoints();
     });
   }
 
@@ -136,7 +152,8 @@ export class CollectionRequestComponent {
         address: formValue.address,
         date: formValue.date,
         timeSlot: formValue.timeSlot,
-        status: CollectionStatus.Pending
+        status: CollectionStatus.Pending,
+          points: this.totalPoints
       };
 
       this.collectionService.createRequest(collection).subscribe(

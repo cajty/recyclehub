@@ -17,3 +17,4 @@ export const AVAILABLE_CONVERSIONS: PointsConversion[] = [
     amount: 350
   }
 ];
+

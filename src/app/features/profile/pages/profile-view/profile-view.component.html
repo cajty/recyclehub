@@ -19,6 +19,7 @@
       </div>
     </div>
 
+
     <!-- Profile Form Section -->
     <form [formGroup]="profileForm" (ngSubmit)="updateProfile()" class="p-6">
       <div class="grid gap-6">
@@ -35,6 +36,23 @@
           <div class="text-center p-3 bg-white rounded-lg shadow-sm">
             <span class="material-symbols-outlined text-emerald-500 text-2xl mb-2">balance</span>
             <p class="font-semibold">{{ (user$ | async)?.balance  }} DH</p>
+          </div>
+        </div>
+         <!-- Points Conversion Section -->
+        <div class="border-t border-gray-200 pt-6 mt-6">
+          <h3 class="text-lg font-semibold mb-4 text-center">Convert Your Points</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <button *ngFor="let conversion of availableConversions"
+                    type="button"
+                    (click)="convertPoints(conversion.points)"
+                    [disabled]="((user$ | async)?.points ?? 0) < conversion.points"
+                    class="p-4 bg-white border-2 border-emerald-500 rounded-xl hover:bg-emerald-50 transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed">
+              <div class="flex items-center justify-center gap-2 text-emerald-700">
+                <span class="material-symbols-outlined group-hover:scale-110 transition-transform">currency_exchange</span>
+                <span class="font-medium">{{ conversion.points }} Points</span>
+              </div>
+              <p class="text-sm text-gray-600 mt-2 text-center">Get {{ conversion.amount }} Dh</p>
+            </button>
           </div>
         </div>
 
@@ -106,24 +124,8 @@
           </div>
         </div>
 
-        <!-- Points Conversion Section -->
-  <!-- Points Conversion Section -->
-        <div class="border-t border-gray-200 pt-6 mt-6">
-          <h3 class="text-lg font-semibold mb-4 text-center">Convert Your Points</h3>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <button *ngFor="let conversion of availableConversions"
-                    type="button"
-                    (click)="convertPoints(conversion.points)"
-                    [disabled]="((user$ | async)?.points ?? 0) < conversion.points"
-                    class="p-4 bg-white border-2 border-emerald-500 rounded-xl hover:bg-emerald-50 transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed">
-              <div class="flex items-center justify-center gap-2 text-emerald-700">
-                <span class="material-symbols-outlined group-hover:scale-110 transition-transform">currency_exchange</span>
-                <span class="font-medium">{{ conversion.points }} Points</span>
-              </div>
-              <p class="text-sm text-gray-600 mt-2 text-center">Get {{ conversion.amount }} Dh</p>
-            </button>
-          </div>
-        </div>
+
+
 
         <!-- Action Buttons -->
         <div class="flex flex-wrap justify-between gap-4 mt-8">

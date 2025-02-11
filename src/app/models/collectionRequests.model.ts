@@ -10,4 +10,5 @@ export interface CollectionRequest {
   date: string;
   timeSlot: string;
   status: CollectionStatus;
+  points: number;
 }

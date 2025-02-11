@@ -40,10 +40,16 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('user-id');
+    localStorage.removeItem('user-type');
     this.router.navigate(['/user/login']);
   }
   isLoggedIn(): boolean {
     return !!localStorage.getItem('user-id');
+  }
+  logingSuccess(id: string, type: string ): void {
+      localStorage.setItem('user-id', id);
+      localStorage.setItem('user-type', type);
+      this.router.navigate(['/profile']);
   }
 
 }

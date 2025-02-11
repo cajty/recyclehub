@@ -70,15 +70,14 @@ export class RegisterComponent implements OnInit {
         phoneNumber: formData.phoneNumber,
         dateOfBirth: formData.dateOfBirth,
         profilePicture: this.selectedImage || '',
-        userType: "user",
+        userType: "helper",
         balance: 0,
         points: 0
       };
 
       this.authService.register(userData).subscribe({
         next: (user) => {
-           localStorage.setItem('user-id', user.id);
-            this.router.navigate(['/profile']);
+           this.authService.logingSuccess(user.id,user.userType);
         },
         error: (error) => {
           console.error('Registration failed', error);

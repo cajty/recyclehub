@@ -3,13 +3,17 @@ import { CommonModule } from '@angular/common';
 import { CollectionService } from '../../../../core/services/collection.service';
 import {CollectionRequest} from '../../../../models/collectionRequests.model';
 import {Router, RouterModule} from '@angular/router';
+import {CollectionStatus} from '../../../../models/CollectionStatus';
+import {FormsModule} from '@angular/forms';
+import {filter} from 'rxjs';
 
 @Component({
   selector: 'app-collection-list',
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   templateUrl: './collection-list.component.html',
   styles: [`
@@ -21,6 +25,9 @@ import {Router, RouterModule} from '@angular/router';
 })
 export class CollectionListComponent implements OnInit {
   requests: CollectionRequest[] = [];
+   userTypes :string = localStorage.getItem('user-type') || '';
+  isCollector: boolean = this.userTypes === 'collector';
+  collectionStatuses = Object.values(CollectionStatus);
 
   constructor(
     private collectionService: CollectionService,
@@ -28,9 +35,18 @@ export class CollectionListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.collectionService.getUserRequests(2).subscribe(requests => {
-      this.requests = requests;
-    });
+    if(this.isCollector){
+      const id :string = localStorage.getItem("user-id") || '';
+       this.collectionService.getUserRequests(id).pipe(
+         requests => requests[]
+        filter(requests => requests[] !== null)
+       )
+    }else{
+  this.collectionService.getPendingRequests().subscribe(requests => {
+    this.requests = requests;
+  });
+}
+
   }
 
   getStatusClass(status: string): string {
@@ -39,4 +55,15 @@ export class CollectionListComponent implements OnInit {
   getrequestDetails(id: string): void {
     this.router.navigate(['/collection', id]);
   }
+
+updateRequestStatus(id: string, status: CollectionStatus): void {
+  this.collectionService.updateRequestStatus(id, status).subscribe(() => {
+    const request = this.requests.find(request => request.id === id);
+    if (request) {
+      request.status = status;
+    }
+  });
+}
+
+  protected readonly CollectionStatus = CollectionStatus;
 }
